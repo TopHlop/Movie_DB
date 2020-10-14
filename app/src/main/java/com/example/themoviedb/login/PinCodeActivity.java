@@ -4,18 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.themoviedb.databinding.ActivityLoginBinding;
+import com.example.themoviedb.databinding.ActivityPinCodeBinding;
 
-public class LoginActivity extends AppCompatActivity {
+public class PinCodeActivity extends AppCompatActivity {
 
-    private ActivityLoginBinding binding;
+    private ActivityPinCodeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding = ActivityPinCodeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
     }
 }

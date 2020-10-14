@@ -94,14 +94,12 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:alpha="0.9"
-        android:textAllCaps="false"
         android:background="@drawable/bg_login_button"
-        android:fontFamily="sans-serif"
+        android:textAppearance="@style/InactiveButtonText"
         android:text="@string/login_button"
-        android:textColor="@color/text_gray_color"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:clickable="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
