@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">The Movie DB</string>
-    <string name="title_activity_login2">LoginActivity2</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="welcome_message">Добро пожаловать!</string>
+    <string name="login_message">Укажите логин и пароль, которые вы использовали для входа</string>
+    <string name="placeholder_login">Логин</string>
+    <string name="placeholder_password">Пароль</string>
+    <string name="login_button">Войти</string>
+    <string name="error_login_or_password">Неверный логин или пароль</string>
+    <string name="error_login">Что-то пошло не так,  попробуйте войти позже</string>
 </resources>
