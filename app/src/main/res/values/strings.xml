@@ -11,4 +11,7 @@
     <string name="repeat_message_pin_code">Повторите  ваш пин-код</string>
     <string name="error_message_pin_code">Неверный пин-код</string>
     <string name="exit_button">Выйти</string>
+    <string name="title_films">Фильмы</string>
+    <string name="title_favorites">Избранное</string>
+    <string name="title_user">Профиль</string>
 </resources>

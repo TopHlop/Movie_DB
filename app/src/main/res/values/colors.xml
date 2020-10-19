@@ -12,4 +12,5 @@
     <color name="unclicked_button_color">#232636</color>
     <color name="borders_color">#2A2E42</color>
     <color name="purpure_color">#6C63FF</color>
+    <color name="tablayout_search_color">#282C3F</color>
 </resources>
