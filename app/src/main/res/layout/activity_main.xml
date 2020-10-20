@@ -21,7 +21,6 @@
         android:background="@color/tablayout_search_color"
         app:tabTextColor="@color/text_light_color"
         app:tabSelectedTextColor="@color/button_orange_color"
-        app:tabIconTint=""
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabGravity="fill"
         app:tabIndicatorHeight="0dp"

@@ -7,8 +7,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="TextStyle">
+    <style name="LightTextStyle">
         <item name="android:textColor">@color/text_light_color</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+
+    <style name="GrayTextStyle">
+        <item name="android:textColor">@color/text_gray_color</item>
         <item name="fontFamily">sans-serif</item>
     </style>
 
@@ -19,7 +24,7 @@
     </style>
 
     <style name="NumberButton">
-        <item name="android:textAppearance">@style/TextStyle</item>
+        <item name="android:textAppearance">@style/LightTextStyle</item>
         <item name="android:textSize">32sp</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_width">72dp</item>

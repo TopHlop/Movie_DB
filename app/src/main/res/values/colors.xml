@@ -10,7 +10,8 @@
     <color name="button_orange_color">#FE4E27</color>
     <color name="error_message_color">#E1172F</color>
     <color name="unclicked_button_color">#232636</color>
-    <color name="borders_color">#2A2E42</color>
+    <color name="dark_blue">#2A2E42</color>
     <color name="purpure_color">#6C63FF</color>
     <color name="tablayout_search_color">#282C3F</color>
+    <color name="dark_blue_color">#2A2E42</color>
 </resources>
