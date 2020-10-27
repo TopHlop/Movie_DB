@@ -6,7 +6,7 @@ import com.example.themoviedb.di.component.AppComponent;
 import com.example.themoviedb.di.component.DaggerAppComponent;
 import com.example.themoviedb.di.module.ApiModule;
 
-class App extends Application {
+public class App extends Application {
 
     private static AppComponent appComponent;
 
