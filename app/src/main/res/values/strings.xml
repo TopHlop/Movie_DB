@@ -14,4 +14,7 @@
     <string name="title_films">Фильмы</string>
     <string name="title_favorites">Избранное</string>
     <string name="title_user">Профиль</string>
+
+    <string name="base_url">https://api.themoviedb.org/3/</string>
+    <string name="api_key">f974b8f49d7e213fe108f60a32c0aac7</string>
 </resources>

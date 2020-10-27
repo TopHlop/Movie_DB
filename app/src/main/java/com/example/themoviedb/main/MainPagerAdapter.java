@@ -2,7 +2,6 @@ package com.example.themoviedb.main;
 
 import android.graphics.drawable.Drawable;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
