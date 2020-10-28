@@ -1,4 +1,4 @@
-package com.example.themoviedb.login;
+package com.example.themoviedb.login.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,8 +13,8 @@ import android.view.View;
 import com.example.themoviedb.App;
 import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.ActivityLoginBinding;
-import com.example.themoviedb.main.MainActivity;
-import com.example.themoviedb.viewModel.LoginViewModel;
+import com.example.themoviedb.main.ui.MainActivity;
+import com.example.themoviedb.login.viewModel.LoginViewModel;
 
 import javax.inject.Inject;
 

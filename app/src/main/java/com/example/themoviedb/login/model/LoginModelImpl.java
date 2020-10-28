@@ -1,4 +1,4 @@
-package com.example.themoviedb.model;
+package com.example.themoviedb.login.model;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,11 +8,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.themoviedb.App;
 import com.example.themoviedb.R;
-import com.example.themoviedb.data.RequestTokenAnswerWrap;
-import com.example.themoviedb.data.RequestTokenWrap;
-import com.example.themoviedb.data.SessionIdWrap;
-import com.example.themoviedb.data.UserDataWrap;
-import com.example.themoviedb.network.Service;
+import com.example.themoviedb.login.data.RequestTokenAnswerWrap;
+import com.example.themoviedb.login.data.RequestTokenWrap;
+import com.example.themoviedb.login.data.SessionIdWrap;
+import com.example.themoviedb.login.data.UserDataWrap;
+import com.example.themoviedb.login.network.LoginService;
 
 import javax.inject.Inject;
 
@@ -26,7 +26,7 @@ public class LoginModelImpl implements LoginModel {
     private static final String TAG = "LoginModelImpl";
 
     @Inject
-    Service apiService;
+    LoginService apiLoginService;
     @Inject
     Context context;
 
@@ -78,7 +78,7 @@ public class LoginModelImpl implements LoginModel {
 
     @Override
     public void createRequestToken() {
-        disposable.add(apiService.createRequestToken(apiKey)
+        disposable.add(apiLoginService.createRequestToken(apiKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<RequestTokenAnswerWrap>() {
@@ -96,7 +96,7 @@ public class LoginModelImpl implements LoginModel {
 
     @Override
     public void validateRequestToken(String username, String password, String requestToken) {
-        disposable.add(apiService.validateRequestToken(apiKey,
+        disposable.add(apiLoginService.validateRequestToken(apiKey,
                 new UserDataWrap(username, password, requestToken))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -115,7 +115,7 @@ public class LoginModelImpl implements LoginModel {
 
     @Override
     public void createSessionId(String requestToken) {
-        disposable.add(apiService.createSession(apiKey,
+        disposable.add(apiLoginService.createSession(apiKey,
                 new RequestTokenWrap(requestToken))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

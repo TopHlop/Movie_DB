@@ -1,4 +1,4 @@
-package com.example.themoviedb.login;
+package com.example.themoviedb.login.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 

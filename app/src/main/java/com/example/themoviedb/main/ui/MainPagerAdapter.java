@@ -1,4 +1,4 @@
-package com.example.themoviedb.main;
+package com.example.themoviedb.main.ui;
 
 import android.graphics.drawable.Drawable;
 

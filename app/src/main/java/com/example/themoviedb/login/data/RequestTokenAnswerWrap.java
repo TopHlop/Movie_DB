@@ -1,4 +1,4 @@
-package com.example.themoviedb.data;
+package com.example.themoviedb.login.data;
 
 
 import com.google.gson.annotations.Expose;

@@ -3,9 +3,9 @@ package com.example.themoviedb.di.module;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.themoviedb.viewModel.LoginViewModel;
-import com.example.themoviedb.viewModel.MainViewModel;
-import com.example.themoviedb.viewModel.ViewModelFactory;
+import com.example.themoviedb.login.viewModel.LoginViewModel;
+import com.example.themoviedb.main.viewModel.MainViewModel;
+import com.example.themoviedb.main.viewModel.ViewModelFactory;
 
 import dagger.Binds;
 import dagger.Module;

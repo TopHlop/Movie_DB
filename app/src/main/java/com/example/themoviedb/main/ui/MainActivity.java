@@ -1,4 +1,4 @@
-package com.example.themoviedb.main;
+package com.example.themoviedb.main.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,15 +8,13 @@ import android.os.Bundle;
 
 import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.ActivityMainBinding;
-import com.example.themoviedb.main.fragment.FavoritesFragment;
-import com.example.themoviedb.main.fragment.FilmsFragment;
-import com.example.themoviedb.main.fragment.UserFragment;
+import com.example.themoviedb.main.ui.fragment.FavoritesFragment;
+import com.example.themoviedb.main.ui.fragment.FilmsFragment;
+import com.example.themoviedb.main.ui.fragment.UserFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.Objects;
-
-import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.themoviedb.data;
+package com.example.themoviedb.main.data;
 
 
 import java.util.List;

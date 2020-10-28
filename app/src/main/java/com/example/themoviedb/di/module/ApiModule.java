@@ -1,6 +1,7 @@
 package com.example.themoviedb.di.module;
 
-import com.example.themoviedb.network.Service;
+import com.example.themoviedb.login.network.LoginService;
+import com.example.themoviedb.main.network.MainService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -9,7 +10,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -50,7 +50,14 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    public Service provideService(Retrofit retrofit) {
-        return retrofit.create(Service.class);
+    public LoginService provideLoginService(Retrofit retrofit) {
+        return retrofit.create(LoginService.class);
     }
+
+    @Provides
+    @Singleton
+    public MainService provideMainService(Retrofit retrofit) {
+        return retrofit.create(MainService.class);
+    }
+
 }

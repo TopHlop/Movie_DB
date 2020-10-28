@@ -1,4 +1,4 @@
-package com.example.themoviedb.viewModel;
+package com.example.themoviedb.login.viewModel;
 
 import android.util.Log;
 
@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.themoviedb.model.LoginModel;
-import com.example.themoviedb.model.LoginModelImpl;
+import com.example.themoviedb.login.model.LoginModel;
+import com.example.themoviedb.login.model.LoginModelImpl;
 
 import javax.inject.Inject;
 
