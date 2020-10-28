@@ -1,38 +1,16 @@
 package com.example.themoviedb.model;
 
-import com.example.themoviedb.App;
-import com.example.themoviedb.network.Service;
+import androidx.lifecycle.LiveData;
 
-import java.util.List;
+import com.example.themoviedb.data.RequestTokenAnswerWrap;
+import com.example.themoviedb.data.SessionIdWrap;
 
-import javax.inject.Inject;
-
-import io.reactivex.Single;
-import retrofit2.Retrofit;
-
-public class LoginModel {
-
-    @Inject
-    Retrofit retrofit;
-
-    private static LoginModel loginModel;
-    private Service apiService;
-
-    public static LoginModel getInstance() {
-        if(loginModel == null) {
-            loginModel = new LoginModel();
-        }
-        return loginModel;
-    }
-
-    public LoginModel() {
-        App.getAppComponent().inject(this);
-        apiService = retrofit.create(Service.class);
-    }
-
-    public void createRequestToken() {
-
-
-    }
-
+public interface LoginModel {
+    LiveData<RequestTokenAnswerWrap> getCreatedRequestToken();
+    LiveData<RequestTokenAnswerWrap> getValidatedRequestToken();
+    LiveData<SessionIdWrap> getCreatedSessionId();
+    void createRequestToken();
+    void clearDisposable();
+    void validateRequestToken(String username, String password, String requestToken);
+    void createSessionId(String requestToken);
 }

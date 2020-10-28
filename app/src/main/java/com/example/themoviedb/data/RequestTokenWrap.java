@@ -9,6 +9,10 @@ public class RequestTokenWrap {
     @Expose
     private String requestToken;
 
+    public RequestTokenWrap(String requestToken) {
+        this.requestToken = requestToken;
+    }
+
     public String getRequestToken() {
         return requestToken;
     }

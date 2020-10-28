@@ -16,6 +16,12 @@ public class UserDataWrap {
     @Expose
     private String requestToken;
 
+    public UserDataWrap(String username, String password, String requestToken) {
+        this.username = username;
+        this.password = password;
+        this.requestToken = requestToken;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }

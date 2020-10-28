@@ -28,7 +28,7 @@ public class RequestTokenAnswerWrap {
         this.requestToken = requestToken;
     }
 
-    public Boolean getSuccess() {
+    public Boolean isSuccess() {
         return success;
     }
 

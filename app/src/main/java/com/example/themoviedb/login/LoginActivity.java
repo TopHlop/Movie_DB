@@ -1,21 +1,19 @@
 package com.example.themoviedb.login;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 
 import com.example.themoviedb.App;
 import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.ActivityLoginBinding;
+import com.example.themoviedb.main.MainActivity;
 import com.example.themoviedb.viewModel.LoginViewModel;
 
 import javax.inject.Inject;
@@ -40,31 +38,22 @@ public class LoginActivity extends AppCompatActivity {
         setTextWatcherForEditTextFields();
 
         loginViewModel = new ViewModelProvider(this, viewModelFactory).get(LoginViewModel.class);
-        binding.loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.loginButton.setOnClickListener(v -> {
                 loginViewModel.loginUser(binding.loginEditText.getText().toString(),
                         binding.passwordEditText.getText().toString());
                 setEnabledFields(false);
-            }
         });
 
-        loginViewModel.getIsSuccessAuth().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isSuccessAuth) {
+        loginViewModel.getIsSuccessLogin().observe(this, isSuccessAuth -> {
                 if (isSuccessAuth) {
                     binding.errorText.setVisibility(View.GONE);
-                    startPinCodeActivity();
+                    startMainActivity();
                 }
-            }
         });
 
-        loginViewModel.getErrorMessage().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String errorMessage) {
+        loginViewModel.getErrorMessage().observe(this, errorMessage-> {
                 setErrorMessage(errorMessage);
                 setEnabledFields(true);
-            }
         });
     }
 
@@ -79,9 +68,10 @@ public class LoginActivity extends AppCompatActivity {
         binding.errorText.setVisibility(View.VISIBLE);
     }
 
-    private void startPinCodeActivity() {
-        Intent intent = new Intent(this, PinCodeActivity.class);
+    private void startMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void setTextWatcherForEditTextFields() {
