@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.example.themoviedb.App;
 import com.example.themoviedb.R;
+import com.example.themoviedb.SharedPreferencesHelper;
 import com.example.themoviedb.databinding.ActivityLoginBinding;
 import com.example.themoviedb.main.ui.MainActivity;
 import com.example.themoviedb.login.viewModel.LoginViewModel;
@@ -26,18 +27,24 @@ public class LoginActivity extends AppCompatActivity {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    SharedPreferencesHelper sharedPreferencesHelper;
     private LoginViewModel loginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        App.getAppComponent().inject(this);
+        loginViewModel = new ViewModelProvider(this, viewModelFactory).get(LoginViewModel.class);
+        if(loginViewModel.isUserLogin()) {
+            startMainActivity();
+        }
+
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        App.getAppComponent().inject(this);
         setTextWatcherForEditTextFields();
 
-        loginViewModel = new ViewModelProvider(this, viewModelFactory).get(LoginViewModel.class);
         binding.loginButton.setOnClickListener(v -> {
                 loginViewModel.loginUser(binding.loginEditText.getText().toString(),
                         binding.passwordEditText.getText().toString());

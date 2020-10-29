@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.themoviedb.App;
+import com.example.themoviedb.SharedPreferencesHelper;
 import com.example.themoviedb.login.model.LoginModel;
 import com.example.themoviedb.login.model.LoginModelImpl;
 
@@ -14,6 +16,9 @@ import javax.inject.Inject;
 public class LoginViewModel extends ViewModel {
 
     private static final String TAG = "LoginViewModel";
+
+    @Inject
+    SharedPreferencesHelper sharedPreferencesHelper;
 
     private MutableLiveData<Boolean> isSuccessLogin = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -24,6 +29,7 @@ public class LoginViewModel extends ViewModel {
     @Inject
     public LoginViewModel() {
         loginModel = LoginModelImpl.getInstance();
+        App.getAppComponent().inject(this);
         observeLiveData();
     }
 
@@ -44,9 +50,16 @@ public class LoginViewModel extends ViewModel {
             if(createdSessionId.isSuccess()) {
                 //запись sessionId в preferences
                 isSuccessLogin.postValue(true);
+                sharedPreferencesHelper.putString(SharedPreferencesHelper.KEY_SESSION_ID,
+                        createdSessionId.getSessionId());
                 Log.d(TAG, "sessionId: " + createdSessionId.getSessionId());
             }
         });
+    }
+
+    public boolean isUserLogin() {
+        return (sharedPreferencesHelper.getString(SharedPreferencesHelper.KEY_SESSION_ID,
+                null) != null);
     }
 
     public void loginUser(String username, String password) {
