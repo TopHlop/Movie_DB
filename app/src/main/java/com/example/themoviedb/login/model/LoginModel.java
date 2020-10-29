@@ -2,12 +2,12 @@ package com.example.themoviedb.login.model;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.themoviedb.login.data.RequestTokenAnswerWrap;
+import com.example.themoviedb.login.data.RequestTokenResponseWrap;
 import com.example.themoviedb.login.data.SessionIdWrap;
 
 public interface LoginModel {
-    LiveData<RequestTokenAnswerWrap> getCreatedRequestToken();
-    LiveData<RequestTokenAnswerWrap> getValidatedRequestToken();
+    LiveData<RequestTokenResponseWrap> getCreatedRequestToken();
+    LiveData<RequestTokenResponseWrap> getValidatedRequestToken();
     LiveData<SessionIdWrap> getCreatedSessionId();
     void createRequestToken();
     void clearDisposable();

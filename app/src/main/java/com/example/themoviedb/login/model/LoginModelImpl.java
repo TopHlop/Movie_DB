@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.themoviedb.App;
 import com.example.themoviedb.R;
-import com.example.themoviedb.login.data.RequestTokenAnswerWrap;
+import com.example.themoviedb.login.data.RequestTokenResponseWrap;
 import com.example.themoviedb.login.data.RequestTokenWrap;
 import com.example.themoviedb.login.data.SessionIdWrap;
 import com.example.themoviedb.login.data.UserDataWrap;
@@ -31,8 +31,8 @@ public class LoginModelImpl implements LoginModel {
     Context context;
 
     private String apiKey;
-    private final MutableLiveData<RequestTokenAnswerWrap> createdRequestToken = new MutableLiveData<>();
-    private final MutableLiveData<RequestTokenAnswerWrap> validatedRequestToken = new MutableLiveData<>();
+    private final MutableLiveData<RequestTokenResponseWrap> createdRequestToken = new MutableLiveData<>();
+    private final MutableLiveData<RequestTokenResponseWrap> validatedRequestToken = new MutableLiveData<>();
     private final MutableLiveData<SessionIdWrap> createdSessionId = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
@@ -62,12 +62,12 @@ public class LoginModelImpl implements LoginModel {
     }
 
     @Override
-    public LiveData<RequestTokenAnswerWrap> getCreatedRequestToken() {
+    public LiveData<RequestTokenResponseWrap> getCreatedRequestToken() {
         return createdRequestToken;
     }
 
     @Override
-    public LiveData<RequestTokenAnswerWrap> getValidatedRequestToken() {
+    public LiveData<RequestTokenResponseWrap> getValidatedRequestToken() {
         return validatedRequestToken;
     }
 
@@ -81,10 +81,10 @@ public class LoginModelImpl implements LoginModel {
         disposable.add(apiLoginService.createRequestToken(apiKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<RequestTokenAnswerWrap>() {
+                .subscribeWith(new DisposableSingleObserver<RequestTokenResponseWrap>() {
                     @Override
-                    public void onSuccess(RequestTokenAnswerWrap requestTokenAnswerWrap) {
-                        createdRequestToken.postValue(requestTokenAnswerWrap);
+                    public void onSuccess(RequestTokenResponseWrap requestTokenResponseWrap) {
+                        createdRequestToken.postValue(requestTokenResponseWrap);
                     }
 
                     @Override
@@ -100,10 +100,10 @@ public class LoginModelImpl implements LoginModel {
                 new UserDataWrap(username, password, requestToken))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<RequestTokenAnswerWrap>() {
+                .subscribeWith(new DisposableSingleObserver<RequestTokenResponseWrap>() {
                     @Override
-                    public void onSuccess(RequestTokenAnswerWrap requestTokenAnswerWrap) {
-                        validatedRequestToken.postValue(requestTokenAnswerWrap);
+                    public void onSuccess(RequestTokenResponseWrap requestTokenResponseWrap) {
+                        validatedRequestToken.postValue(requestTokenResponseWrap);
                     }
 
                     @Override

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.themoviedb.login.viewModel.LoginViewModel;
 import com.example.themoviedb.main.viewModel.MainViewModel;
+import com.example.themoviedb.main.viewModel.UserViewModel;
 import com.example.themoviedb.main.viewModel.ViewModelFactory;
 
 import dagger.Binds;
@@ -23,6 +24,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LoginViewModel.class)
     abstract ViewModel bindLoginViewModel(LoginViewModel loginViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserViewModel.class)
+    abstract ViewModel bindUserViewModel(UserViewModel userViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory viewModelFactory);
