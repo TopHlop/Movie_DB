@@ -5,68 +5,97 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#191A25"
-    tools:context=".login.LoginActivity">
+    tools:context=".login.ui.LoginActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="46dp"
-        android:text="Добро пожаловать!"
-        android:textAppearance="@style/TextStyle"
+        android:text="@string/welcome_message"
+        android:textAppearance="@style/LightTextStyle"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:textAppearance="@style/TextStyle"
+        android:id="@+id/login_text"
         android:layout_width="328dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="16dp"
-        android:text="Укажите логин и пароль, которые вы использовали для входа"
+        android:text="@string/login_message"
+        android:textAppearance="@style/LightTextStyle"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/welcome_text" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="328dp"
-        android:layout_height="56dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_input_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:hint="Логин"
         android:textColorHint="@color/text_gray_color"
-        android:inputType="textPersonName"
+        app:hintTextColor="@color/text_gray_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/login_text">
 
-    <EditText
-        android:id="@+id/editTextTextPassword"
-        android:layout_width="328dp"
-        android:layout_height="56dp"
+        <EditText
+            android:id="@+id/login_edit_text"
+            android:layout_width="328dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_login"
+            android:ems="10"
+            android:fontFamily="sans-serif"
+            android:hint="@string/placeholder_login"
+            android:inputType="textEmailAddress"
+            android:paddingStart="14dp"
+            android:textColor="@color/text_light_color"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_input_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:hint="Пароль"
         android:textColorHint="@color/text_gray_color"
-        android:ems="10"
-        android:inputType="textPassword"
+        app:hintTextColor="@color/text_gray_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/login_input_layout"
+        app:passwordToggleDrawable="@drawable/ic_password_visibility"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/text_gray_color">
+
+        <EditText
+            android:id="@+id/password_edit_text"
+            android:layout_width="328dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_login"
+            android:ems="10"
+            android:fontFamily="sans-serif"
+            android:hint="@string/placeholder_password"
+            android:inputType="textPassword"
+            android:paddingStart="14dp"
+            android:textColor="@color/text_light_color"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/error_text"
         android:layout_width="328dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
@@ -76,18 +105,21 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/password_input_layout" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/login_button"
         android:layout_width="328dp"
         android:layout_height="56dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:alpha="0.9"
+        android:background="@drawable/corner_button"
         android:backgroundTint="@color/unclicked_button_color"
-        android:text="Войти"
-        android:textColor="@color/text_gray_color"
+        android:clickable="false"
+        android:text="@string/login_button"
+        android:textAppearance="@style/InactiveButtonText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
