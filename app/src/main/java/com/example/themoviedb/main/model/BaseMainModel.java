@@ -28,7 +28,6 @@ public abstract class BaseMainModel {
     public void clearDisposable() {
         if (disposable != null) {
             disposable.clear();
-            disposable = null;
         }
     }
 }

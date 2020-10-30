@@ -24,6 +24,4 @@ public interface AppComponent {
     void inject(UserViewModel userViewModel);
     void inject(UserFragment userFragment);
     void inject(BaseMainModel baseMainModel);
-
-    SharedPreferencesHelper getSharedPreferencesHelper();
 }

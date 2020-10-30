@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData;
 import com.example.themoviedb.login.data.RequestTokenResponseWrap;
 import com.example.themoviedb.login.data.SessionIdWrap;
 
-public interface LoginModel {
+public interface LoginUseCase {
     LiveData<RequestTokenResponseWrap> getCreatedRequestToken();
     LiveData<RequestTokenResponseWrap> getValidatedRequestToken();
     LiveData<SessionIdWrap> getCreatedSessionId();

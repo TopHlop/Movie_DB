@@ -4,6 +4,7 @@ import com.example.themoviedb.main.data.DeleteSessionResponseWrap;
 import com.example.themoviedb.main.data.Movie;
 import com.example.themoviedb.main.data.PagingEnvelope;
 import com.example.themoviedb.main.data.SessionIdBodyWrap;
+import com.example.themoviedb.main.data.UserWrap;
 
 import io.reactivex.Single;
 import retrofit2.http.Body;
@@ -30,5 +31,9 @@ public interface MainService {
     @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
     Single<DeleteSessionResponseWrap> deleteSession(@Query("api_key") String apiKey,
                                                     @Body SessionIdBodyWrap sessionIdBody);
+
+    @GET("account")
+    Single<UserWrap> getAccountDetails(@Query("api_key") String apiKey,
+                                       @Query("session_id") String sessionID);
 
 }

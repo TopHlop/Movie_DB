@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.themoviedb.main.data.DeleteSessionResponseWrap;
 import com.example.themoviedb.main.data.SessionIdBodyWrap;
+import com.example.themoviedb.main.data.UserWrap;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -27,11 +28,17 @@ public class UserModelImpl extends BaseMainModel implements UserModel {
         super();
     }
 
-    MutableLiveData<DeleteSessionResponseWrap> deleteSessionResponse = new MutableLiveData<>();
+    private MutableLiveData<DeleteSessionResponseWrap> deleteSessionResponse = new MutableLiveData<>();
+    private MutableLiveData<UserWrap> user = new MutableLiveData<>();
 
     @Override
     public LiveData<DeleteSessionResponseWrap> getDeleteSessionResponse() {
         return deleteSessionResponse;
+    }
+
+    @Override
+    public LiveData<UserWrap> getUser() {
+        return user;
     }
 
     @Override
@@ -54,7 +61,20 @@ public class UserModelImpl extends BaseMainModel implements UserModel {
 
     @Override
     public void getUserData(String sessionId) {
+        disposable.add(apiMainService.getAccountDetails(apiKey, sessionId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<UserWrap>() {
+                    @Override
+                    public void onSuccess(UserWrap userWrap) {
+                        user.postValue(userWrap);
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(this.getClass().getName(), "error get user data: " + e.getMessage());
+                    }
+                }));
     }
 
     @Override

@@ -33,7 +33,6 @@ public class ApiModule {
     @Provides
     OkHttpClient provideOkHttpClient() {
         return new OkHttpClient.Builder()
-                //.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
     }
 

@@ -21,7 +21,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class LoginModelImpl implements LoginModel {
+public class LoginModelImpl implements LoginUseCase {
 
     private static final String TAG = "LoginModelImpl";
 
@@ -49,15 +49,14 @@ public class LoginModelImpl implements LoginModel {
 
     public LoginModelImpl() {
         App.getAppComponent().inject(this);
-        disposable = new CompositeDisposable();
         apiKey = context.getResources().getString(R.string.api_key);
+        disposable = new CompositeDisposable();
     }
 
     @Override
     public void clearDisposable() {
         if (disposable != null) {
             disposable.clear();
-            disposable = null;
         }
     }
 

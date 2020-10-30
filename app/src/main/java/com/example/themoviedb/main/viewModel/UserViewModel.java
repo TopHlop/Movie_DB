@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.themoviedb.App;
 import com.example.themoviedb.SharedPreferencesHelper;
+import com.example.themoviedb.main.data.UserWrap;
 import com.example.themoviedb.main.model.UserModel;
 import com.example.themoviedb.main.model.UserModelImpl;
 
@@ -28,17 +29,21 @@ public class UserViewModel extends ViewModel {
 
     private void observeLiveData() {
         userModel.getDeleteSessionResponse().observeForever(deleteSessionResponse -> {
+            //false doesn't be (only fail in response, if something wrong)
             if (deleteSessionResponse.isSuccess()) {
                 isSuccessDeleteSession.postValue(true);
                 sharedPreferencesHelper.deleteDataByKey(SharedPreferencesHelper.KEY_SESSION_ID);
-            } else {
-
             }
         });
     }
 
     public void getUserData() {
-
+        String sessionId = sharedPreferencesHelper.getString(SharedPreferencesHelper.KEY_SESSION_ID, null);
+        if(sessionId != null) {
+            userModel.getUserData(sessionId);
+        } else {
+            //ошибка хранения session_id
+        }
     }
 
     public void deleteSession() {
@@ -52,5 +57,9 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<Boolean> getIsSuccessDeleteSession() {
         return isSuccessDeleteSession;
+    }
+
+    public LiveData<UserWrap> getUser() {
+        return userModel.getUser();
     }
 }

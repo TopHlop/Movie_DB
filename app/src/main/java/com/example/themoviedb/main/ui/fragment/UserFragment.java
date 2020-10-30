@@ -8,13 +8,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.themoviedb.App;
+import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.FragmentUserBinding;
 import com.example.themoviedb.login.ui.LoginActivity;
+import com.example.themoviedb.main.ui.CircularAvatarIconTransformation;
 import com.example.themoviedb.main.viewModel.UserViewModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -41,6 +45,7 @@ public class UserFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         App.getAppComponent().inject(this);
         userViewModel = new ViewModelProvider(this, viewModelFactory).get(UserViewModel.class);
+        userViewModel.getUserData();
         userViewModel.getIsSuccessDeleteSession().observe(getViewLifecycleOwner(), isSuccessDeleteSession -> {
             if(isSuccessDeleteSession) {
                 startLoginActivity();
@@ -49,6 +54,17 @@ public class UserFragment extends Fragment {
         binding.exitButton.setOnClickListener(view -> {
             userViewModel.deleteSession();
             setExitButtonClickable(false);
+        });
+        userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            binding.nameText.setText(user.getName());
+            Picasso.get()
+                    .load(String.format(getString(R.string.gravatar_url),
+                            user.getAvatar().getGravatar().getHash(),
+                            binding.avatarIcon.getHeight()))
+                    .error(Objects.requireNonNull(ContextCompat.getDrawable(Objects.requireNonNull(getActivity()),
+                            R.drawable.ic_avatar)))
+                    .transform(CircularAvatarIconTransformation.getInstance())
+                    .into(binding.avatarIcon);
         });
     }
 
