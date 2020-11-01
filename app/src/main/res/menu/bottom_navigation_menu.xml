@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/films_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_film"
+        android:title="@string/title_films" />
+    <item
+        android:id="@+id/favorites_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite"
+        android:title="@string/title_favorites"/>
+    <item
+        android:id="@+id/user_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_user"
+        android:title="@string/title_user"/>
+</menu>

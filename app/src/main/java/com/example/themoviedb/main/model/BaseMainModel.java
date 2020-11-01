@@ -25,9 +25,4 @@ public abstract class BaseMainModel {
         apiKey = context.getResources().getString(R.string.api_key);
     }
 
-    public void clearDisposable() {
-        if (disposable != null) {
-            disposable.clear();
-        }
-    }
 }

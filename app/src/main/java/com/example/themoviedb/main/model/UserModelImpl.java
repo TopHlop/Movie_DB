@@ -79,6 +79,8 @@ public class UserModelImpl extends BaseMainModel implements UserModel {
 
     @Override
     public void clearDisposable() {
-        super.clearDisposable();
+        if (disposable != null) {
+            disposable.clear();
+        }
     }
 }

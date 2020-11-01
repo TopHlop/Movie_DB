@@ -10,4 +10,5 @@ public interface UserModel {
     void deleteSession(String sessionId);
     void getUserData(String sessionId);
     LiveData<UserWrap> getUser();
+    void clearDisposable();
 }

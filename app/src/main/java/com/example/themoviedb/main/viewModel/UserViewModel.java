@@ -11,7 +11,9 @@ import com.example.themoviedb.main.model.UserModel;
 import com.example.themoviedb.main.model.UserModelImpl;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class UserViewModel extends ViewModel {
 
     @Inject
@@ -61,5 +63,11 @@ public class UserViewModel extends ViewModel {
 
     public LiveData<UserWrap> getUser() {
         return userModel.getUser();
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        userModel.clearDisposable();
     }
 }

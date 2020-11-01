@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
     <style name="LightTextStyle">
         <item name="android:textColor">@color/text_light_color</item>
         <item name="fontFamily">sans-serif</item>

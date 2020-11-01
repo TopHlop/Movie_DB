@@ -13,5 +13,5 @@
     <color name="dark_blue">#2A2E42</color>
     <color name="purpure_color">#6C63FF</color>
     <color name="tablayout_search_color">#282C3F</color>
-    <color name="dark_blue_color">#2A2E42</color>
+    <color name="background_bottom_navigation">#282C3F</color>
 </resources>

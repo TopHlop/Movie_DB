@@ -1,66 +1,73 @@
 package com.example.themoviedb.login.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.themoviedb.App;
 import com.example.themoviedb.R;
-import com.example.themoviedb.SharedPreferencesHelper;
-import com.example.themoviedb.databinding.ActivityLoginBinding;
-import com.example.themoviedb.main.ui.MainActivity;
+import com.example.themoviedb.databinding.FragmentLoginBinding;
 import com.example.themoviedb.login.viewModel.LoginViewModel;
+import com.example.themoviedb.main.ui.MainActivity;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
-public class LoginActivity extends AppCompatActivity {
-
+public class LoginFragment extends Fragment {
     private final String TAG = "LoginActivity";
 
-    private ActivityLoginBinding binding;
+    private FragmentLoginBinding binding;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-    @Inject
-    SharedPreferencesHelper sharedPreferencesHelper;
     private LoginViewModel loginViewModel;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentLoginBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         App.getAppComponent().inject(this);
         loginViewModel = new ViewModelProvider(this, viewModelFactory).get(LoginViewModel.class);
         if(loginViewModel.isUserLogin()) {
-            startMainActivity();
+            navigateToFilmsFragment();
         }
 
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
         setTextWatcherForEditTextFields();
 
         binding.loginButton.setOnClickListener(v -> {
-                loginViewModel.loginUser(binding.loginEditText.getText().toString(),
-                        binding.passwordEditText.getText().toString());
-                setEnabledFields(false);
+            loginViewModel.loginUser(binding.loginEditText.getText().toString(),
+                    binding.passwordEditText.getText().toString());
+            setEnabledFields(false);
         });
 
-        loginViewModel.getIsSuccessLogin().observe(this, isSuccessAuth -> {
-                if (isSuccessAuth) {
-                    binding.errorText.setVisibility(View.GONE);
-                    startMainActivity();
-                }
+        loginViewModel.getIsSuccessLogin().observe(getViewLifecycleOwner(), isSuccessAuth -> {
+            if (isSuccessAuth) {
+                binding.errorText.setVisibility(View.GONE);
+                navigateToFilmsFragment();
+            }
         });
 
-        loginViewModel.getErrorMessage().observe(this, errorMessage-> {
-                setErrorMessage(errorMessage);
-                setEnabledFields(true);
+        loginViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage-> {
+            setErrorMessage(errorMessage);
+            setEnabledFields(true);
         });
     }
 
@@ -75,10 +82,9 @@ public class LoginActivity extends AppCompatActivity {
         binding.errorText.setVisibility(View.VISIBLE);
     }
 
-    private void startMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+    private void navigateToFilmsFragment() {
+        Navigation.findNavController(binding.welcomeText).navigate(R.id.films_fragment);
+        ((MainActivity) Objects.requireNonNull(getActivity())).setBottomNavigationVisible(true);
     }
 
     private void setTextWatcherForEditTextFields() {
@@ -117,6 +123,4 @@ public class LoginActivity extends AppCompatActivity {
                 getResources().getColor(R.color.text_light_color) :
                 getResources().getColor(R.color.text_gray_color));
     }
-
-
 }
