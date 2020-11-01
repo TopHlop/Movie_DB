@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 import com.example.themoviedb.App;
 import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.FragmentLoginBinding;
+import com.example.themoviedb.di.DI;
 import com.example.themoviedb.login.viewModel.LoginViewModel;
 import com.example.themoviedb.main.ui.MainActivity;
 
@@ -44,7 +45,7 @@ public class LoginFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        App.getAppComponent().inject(this);
+        DI.getAppComponent().inject(this);
         loginViewModel = new ViewModelProvider(this, viewModelFactory).get(LoginViewModel.class);
         if(loginViewModel.isUserLogin()) {
             navigateToFilmsFragment();

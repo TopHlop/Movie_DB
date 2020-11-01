@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.themoviedb.App;
 import com.example.themoviedb.SharedPreferencesHelper;
+import com.example.themoviedb.di.DI;
 import com.example.themoviedb.main.data.UserWrap;
 import com.example.themoviedb.main.model.UserModel;
 import com.example.themoviedb.main.model.UserModelImpl;
@@ -25,7 +26,7 @@ public class UserViewModel extends ViewModel {
     @Inject
     public UserViewModel() {
         userModel = UserModelImpl.getInstance();
-        App.getAppComponent().inject(this);
+        DI.getAppComponent().inject(this);
         observeLiveData();
     }
 

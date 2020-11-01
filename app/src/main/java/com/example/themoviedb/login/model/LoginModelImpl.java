@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.themoviedb.App;
 import com.example.themoviedb.R;
+import com.example.themoviedb.di.DI;
 import com.example.themoviedb.login.data.RequestTokenResponseWrap;
 import com.example.themoviedb.login.data.RequestTokenWrap;
 import com.example.themoviedb.login.data.SessionIdWrap;
@@ -48,7 +49,7 @@ public class LoginModelImpl implements LoginUseCase {
     }
 
     public LoginModelImpl() {
-        App.getAppComponent().inject(this);
+        DI.getAppComponent().inject(this);
         apiKey = context.getResources().getString(R.string.api_key);
         disposable = new CompositeDisposable();
     }

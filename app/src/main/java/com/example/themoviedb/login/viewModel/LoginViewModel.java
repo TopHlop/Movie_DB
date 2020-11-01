@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.themoviedb.App;
 import com.example.themoviedb.SharedPreferencesHelper;
+import com.example.themoviedb.di.DI;
 import com.example.themoviedb.login.model.LoginUseCase;
 import com.example.themoviedb.login.model.LoginModelImpl;
 
@@ -29,7 +30,7 @@ public class LoginViewModel extends ViewModel {
     @Inject
     public LoginViewModel() {
         loginModel = LoginModelImpl.getInstance();
-        App.getAppComponent().inject(this);
+        DI.getAppComponent().inject(this);
         observeLiveData();
     }
 

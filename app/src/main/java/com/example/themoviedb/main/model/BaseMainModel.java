@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.themoviedb.App;
 import com.example.themoviedb.R;
+import com.example.themoviedb.di.DI;
 import com.example.themoviedb.main.network.MainService;
 
 import javax.inject.Inject;
@@ -20,7 +21,7 @@ public abstract class BaseMainModel {
     protected String apiKey;
 
     public BaseMainModel() {
-        App.getAppComponent().inject(this);
+        DI.getAppComponent().inject(this);
         disposable = new CompositeDisposable();
         apiKey = context.getResources().getString(R.string.api_key);
     }
