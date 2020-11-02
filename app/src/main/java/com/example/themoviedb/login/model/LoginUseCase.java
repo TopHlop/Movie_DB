@@ -8,12 +8,8 @@ import com.example.themoviedb.login.data.SessionIdWrap;
 import javax.inject.Singleton;
 
 public interface LoginUseCase {
-    LiveData<RequestTokenResponseWrap> getCreatedRequestToken();
-    LiveData<RequestTokenResponseWrap> getValidatedRequestToken();
     LiveData<SessionIdWrap> getCreatedSessionId();
     LiveData<Integer> getErrorCode();
-    void createRequestToken();
     void clearDisposable();
-    void validateRequestToken(String username, String password, String requestToken);
-    void createSessionId(String requestToken);
+    void loginUser(String username, String password);
 }

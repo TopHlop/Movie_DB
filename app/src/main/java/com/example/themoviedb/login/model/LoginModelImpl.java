@@ -1,5 +1,6 @@
 package com.example.themoviedb.login.model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -20,9 +21,10 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
 
@@ -34,8 +36,6 @@ public class LoginModelImpl implements LoginUseCase {
     private Gson gson;
 
     private String apiKey;
-    private final MutableLiveData<RequestTokenResponseWrap> createdRequestToken = new MutableLiveData<>();
-    private final MutableLiveData<RequestTokenResponseWrap> validatedRequestToken = new MutableLiveData<>();
     private final MutableLiveData<SessionIdWrap> createdSessionId = new MutableLiveData<>();
     private final MutableLiveData<Integer> errorCode = new MutableLiveData<>();
 
@@ -50,24 +50,12 @@ public class LoginModelImpl implements LoginUseCase {
         disposable = new CompositeDisposable();
     }
 
-    @Override
     public void clearDisposable() {
         if (disposable != null) {
             disposable.clear();
         }
     }
 
-    @Override
-    public LiveData<RequestTokenResponseWrap> getCreatedRequestToken() {
-        return createdRequestToken;
-    }
-
-    @Override
-    public LiveData<RequestTokenResponseWrap> getValidatedRequestToken() {
-        return validatedRequestToken;
-    }
-
-    @Override
     public LiveData<SessionIdWrap> getCreatedSessionId() {
         return createdSessionId;
     }
@@ -76,60 +64,18 @@ public class LoginModelImpl implements LoginUseCase {
         return errorCode;
     }
 
-    @Override
-    public void createRequestToken() {
+    @SuppressLint("CheckResult")
+    public void loginUser(String username, String password) {
         disposable.add(apiLoginService.createRequestToken(apiKey)
+                .flatMap((Function<RequestTokenResponseWrap, SingleSource<RequestTokenResponseWrap>>) requestTokenResponseWrap ->
+                        apiLoginService.validateRequestToken(apiKey,
+                                new UserDataWrap(username, password, requestTokenResponseWrap.getRequestToken())))
+                .flatMap((Function<RequestTokenResponseWrap, SingleSource<SessionIdWrap>>) requestTokenResponseWrap ->
+                        apiLoginService.createSession(apiKey,
+                                new RequestTokenWrap(requestTokenResponseWrap.getRequestToken())))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<RequestTokenResponseWrap>() {
-                    @Override
-                    public void onSuccess(RequestTokenResponseWrap requestTokenResponseWrap) {
-                        createdRequestToken.postValue(requestTokenResponseWrap);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        setErrorCode(e);
-                    }
-                }));
-    }
-
-    @Override
-    public void validateRequestToken(String username, String password, String requestToken) {
-        disposable.add(apiLoginService.validateRequestToken(apiKey,
-                new UserDataWrap(username, password, requestToken))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<RequestTokenResponseWrap>() {
-                    @Override
-                    public void onSuccess(RequestTokenResponseWrap requestTokenResponseWrap) {
-                        validatedRequestToken.postValue(requestTokenResponseWrap);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        setErrorCode(e);
-                    }
-                }));
-    }
-
-    @Override
-    public void createSessionId(String requestToken) {
-        disposable.add(apiLoginService.createSession(apiKey,
-                new RequestTokenWrap(requestToken))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<SessionIdWrap>() {
-                    @Override
-                    public void onSuccess(SessionIdWrap sessionIdWrap) {
-                        createdSessionId.postValue(sessionIdWrap);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        setErrorCode(e);
-                    }
-                }));
+                .subscribe(createdSessionId::postValue, this::setErrorCode));
     }
 
     private void setErrorCode(Throwable e) {

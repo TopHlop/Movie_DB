@@ -21,8 +21,6 @@ public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<Boolean> isSuccessLogin = new MutableLiveData<>();
     private LoginUseCase loginModel;
-    private String username;
-    private String password;
 
     @Inject
     public LoginViewModel(SharedPreferencesHelper sharedPreferencesHelper, LoginModelImpl loginModel) {
@@ -33,25 +31,11 @@ public class LoginViewModel extends ViewModel {
     }
 
     private void observeLiveData() {
-        loginModel.getCreatedRequestToken().observeForever(createdRequestToken -> {
-            if(createdRequestToken.isSuccess()) {
-                loginModel.validateRequestToken(username, password, createdRequestToken.getRequestToken());
-                Log.d(TAG, "created token: " + createdRequestToken.getRequestToken());
-            }
-        });
-        loginModel.getValidatedRequestToken().observeForever(validatedRequestToken -> {
-            if(validatedRequestToken.isSuccess()) {
-                loginModel.createSessionId(validatedRequestToken.getRequestToken());
-                Log.d(TAG, "validated token: " + validatedRequestToken.getRequestToken());
-            }
-        });
         loginModel.getCreatedSessionId().observeForever(createdSessionId -> {
-            if(createdSessionId.isSuccess()) {
-                isSuccessLogin.postValue(true);
-                sharedPreferencesHelper.putString(SharedPreferencesHelper.KEY_SESSION_ID,
-                        createdSessionId.getSessionId());
-                Log.d(TAG, "sessionId: " + createdSessionId.getSessionId());
-            }
+            isSuccessLogin.postValue(createdSessionId.isSuccess());
+            sharedPreferencesHelper.putString(SharedPreferencesHelper.KEY_SESSION_ID,
+                    createdSessionId.getSessionId());
+            Log.d(TAG, "sessionId: " + createdSessionId.getSessionId());
         });
     }
 
@@ -61,9 +45,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void loginUser(String username, String password) {
-        this.username = username;
-        this.password = password;
-        loginModel.createRequestToken();
+        loginModel.loginUser(username, password);
     }
 
     public LiveData<Boolean> getIsSuccessLogin() {
