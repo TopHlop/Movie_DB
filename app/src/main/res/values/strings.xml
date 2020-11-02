@@ -5,6 +5,7 @@
     <string name="placeholder_login">Логин</string>
     <string name="placeholder_password">Пароль</string>
     <string name="login_button">Войти</string>
+    <string name="ok_string">ОК</string>
     <string name="error_login_or_password">Неверный логин или пароль</string>
     <string name="error_login">Что-то пошло не так,  попробуйте войти позже</string>
     <string name="start_message_pin_code">Придумайте пин-код для быстрого входа</string>

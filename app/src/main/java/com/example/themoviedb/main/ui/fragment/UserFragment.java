@@ -1,5 +1,6 @@
 package com.example.themoviedb.main.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.example.themoviedb.App;
 import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.FragmentUserBinding;
 import com.example.themoviedb.di.DI;
 import com.example.themoviedb.main.ui.CircularAvatarIconTransformation;
-import com.example.themoviedb.main.ui.MainActivity;
+import com.example.themoviedb.MainActivity;
 import com.example.themoviedb.main.viewModel.UserViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -29,10 +29,21 @@ import javax.inject.Inject;
 public class UserFragment extends Fragment {
 
     private FragmentUserBinding binding;
+    private OnNavigateToLoginFragmentListener listener;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private UserViewModel userViewModel;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            listener = (OnNavigateToLoginFragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnNavigateToLoginFragmentListener");
+        }
+    }
 
     @Nullable
     @Override
@@ -60,7 +71,7 @@ public class UserFragment extends Fragment {
         userViewModel.getUserData();
         userViewModel.getIsSuccessDeleteSession().observe(getViewLifecycleOwner(), isSuccessDeleteSession -> {
             if(isSuccessDeleteSession) {
-                navigateToLoginFragment();
+                listener.navigateToLoginFragment();
             }
         });
         binding.exitButton.setOnClickListener(view -> {
@@ -73,8 +84,7 @@ public class UserFragment extends Fragment {
         binding.exitButton.setClickable(clickable);
     }
 
-    private void navigateToLoginFragment() {
-        Navigation.findNavController(binding.avatarIcon).navigate(R.id.login_fragment);
-        ((MainActivity) Objects.requireNonNull(getActivity())).setBottomNavigationVisible(false);
+    public interface OnNavigateToLoginFragmentListener {
+        void navigateToLoginFragment();
     }
 }

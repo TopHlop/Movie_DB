@@ -6,28 +6,15 @@
     <fragment
         android:id="@+id/login_fragment"
         android:name="com.example.themoviedb.login.ui.LoginFragment"
-        android:label="LoginFragment" >
-        <action
-            android:id="@+id/action_login_fragment_to_films_fragment3"
-            app:destination="@id/films_fragment"
-            app:launchSingleTop="false" />
-    </fragment>
+        android:label="LoginFragment" />
     <fragment
         android:id="@+id/films_fragment"
         android:name="com.example.themoviedb.main.ui.fragment.FilmsFragment"
-        android:label="FilmsFragment" >
-        <action
-            android:id="@+id/action_films_fragment_to_film_description_fragment"
-            app:destination="@id/film_description_fragment" />
-    </fragment>
+        android:label="FilmsFragment" />
     <fragment
         android:id="@+id/favorites_fragment"
         android:name="com.example.themoviedb.main.ui.fragment.FavoritesFragment"
-        android:label="FavoritesFragment" >
-        <action
-            android:id="@+id/action_favorites_fragment_to_film_description_fragment"
-            app:destination="@id/film_description_fragment" />
-    </fragment>
+        android:label="FavoritesFragment" />
     <fragment
         android:id="@+id/user_fragment"
         android:name="com.example.themoviedb.main.ui.fragment.UserFragment"

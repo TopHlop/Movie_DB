@@ -11,6 +11,7 @@ public interface LoginUseCase {
     LiveData<RequestTokenResponseWrap> getCreatedRequestToken();
     LiveData<RequestTokenResponseWrap> getValidatedRequestToken();
     LiveData<SessionIdWrap> getCreatedSessionId();
+    LiveData<Integer> getErrorCode();
     void createRequestToken();
     void clearDisposable();
     void validateRequestToken(String username, String password, String requestToken);

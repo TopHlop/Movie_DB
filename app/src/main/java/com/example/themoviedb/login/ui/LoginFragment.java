@@ -1,25 +1,25 @@
 package com.example.themoviedb.login.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
-import com.example.themoviedb.App;
+import com.example.themoviedb.MovieDBError;
 import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.FragmentLoginBinding;
 import com.example.themoviedb.di.DI;
 import com.example.themoviedb.login.viewModel.LoginViewModel;
-import com.example.themoviedb.main.ui.MainActivity;
 
 import java.util.Objects;
 
@@ -33,6 +33,18 @@ public class LoginFragment extends Fragment {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private LoginViewModel loginViewModel;
+
+    private OnNavigateToMainMenuListener listener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            listener = (OnNavigateToMainMenuListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnNavigateToMainMenuListener");
+        }
+    }
 
     @Nullable
     @Override
@@ -48,26 +60,25 @@ public class LoginFragment extends Fragment {
         DI.getAppComponent().inject(this);
         loginViewModel = new ViewModelProvider(this, viewModelFactory).get(LoginViewModel.class);
         if(loginViewModel.isUserLogin()) {
-            navigateToFilmsFragment();
+            listener.navigateToMainMenu();
         }
 
-        setTextWatcherForEditTextFields();
+        customizeEditTextFields();
 
         binding.loginButton.setOnClickListener(v -> {
-            loginViewModel.loginUser(binding.loginEditText.getText().toString(),
-                    binding.passwordEditText.getText().toString());
-            setEnabledFields(false);
+            loginUser();
         });
 
         loginViewModel.getIsSuccessLogin().observe(getViewLifecycleOwner(), isSuccessAuth -> {
             if (isSuccessAuth) {
                 binding.errorText.setVisibility(View.GONE);
-                navigateToFilmsFragment();
+                listener.navigateToMainMenu();
             }
         });
 
-        loginViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage-> {
-            setErrorMessage(errorMessage);
+        loginViewModel.getErrorCode().observe(getViewLifecycleOwner(), errorCode -> {
+            binding.errorText.setText(MovieDBError.getErrorMessage(errorCode, getContext()));
+            binding.errorText.setVisibility(View.VISIBLE);
             setEnabledFields(true);
         });
     }
@@ -78,17 +89,14 @@ public class LoginFragment extends Fragment {
         binding.loginButton.setClickable(isEnabled);
     }
 
-    private void setErrorMessage(String errorMessage) {
-        binding.errorText.setText(errorMessage);
-        binding.errorText.setVisibility(View.VISIBLE);
+    private void loginUser() {
+        loginViewModel.loginUser(Objects.requireNonNull(binding.loginEditText.getText()).toString(),
+                Objects.requireNonNull(binding.passwordEditText.getText()).toString());
+        binding.errorText.setVisibility(View.INVISIBLE);
+        setEnabledFields(false);
     }
 
-    private void navigateToFilmsFragment() {
-        Navigation.findNavController(binding.welcomeText).navigate(R.id.films_fragment);
-        ((MainActivity) Objects.requireNonNull(getActivity())).setBottomNavigationVisible(true);
-    }
-
-    private void setTextWatcherForEditTextFields() {
+    private void customizeEditTextFields() {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -102,14 +110,25 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!binding.passwordEditText.getText().toString().equals("") &&
-                        !binding.loginEditText.getText().toString().equals("")) {
+                if (Objects.requireNonNull(binding.passwordEditText.getText()).length() != 0 &&
+                        Objects.requireNonNull(binding.loginEditText.getText()).length() != 0) {
                     setLoginButtonClickable(true);
                 } else {
                     setLoginButtonClickable(false);
                 }
             }
         };
+
+        binding.passwordEditText.setOnEditorActionListener((view, actionId, keyEvent) -> {
+            if(actionId == EditorInfo.IME_ACTION_DONE &&
+                    Objects.requireNonNull(binding.loginEditText.getText()).length() != 0) {
+                loginUser();
+                return true;
+            }
+            return false;
+        });
+        binding.passwordEditText.setImeActionLabel(getString(R.string.login_button),
+                EditorInfo.IME_ACTION_DONE);
         binding.passwordEditText.addTextChangedListener(textWatcher);
         binding.loginEditText.addTextChangedListener(textWatcher);
     }
@@ -123,5 +142,9 @@ public class LoginFragment extends Fragment {
         binding.loginButton.setTextColor(clickable ?
                 getResources().getColor(R.color.text_light_color) :
                 getResources().getColor(R.color.text_gray_color));
+    }
+
+    public interface OnNavigateToMainMenuListener {
+        void navigateToMainMenu();
     }
 }

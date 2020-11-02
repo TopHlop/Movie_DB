@@ -20,7 +20,6 @@ public class LoginViewModel extends ViewModel {
     private SharedPreferencesHelper sharedPreferencesHelper;
 
     private MutableLiveData<Boolean> isSuccessLogin = new MutableLiveData<>();
-    private MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private LoginUseCase loginModel;
     private String username;
     private String password;
@@ -71,8 +70,8 @@ public class LoginViewModel extends ViewModel {
         return isSuccessLogin;
     }
 
-    public LiveData<String> getErrorMessage() {
-        return errorMessage;
+    public LiveData<Integer> getErrorCode() {
+        return loginModel.getErrorCode();
     }
 
     @Override

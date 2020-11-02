@@ -15,7 +15,7 @@
         <activity android:name=".login.ui.PinCodeActivity">
 
         </activity>
-        <activity android:name=".main.ui.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

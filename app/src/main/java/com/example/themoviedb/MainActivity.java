@@ -1,4 +1,4 @@
-package com.example.themoviedb.main.ui;
+package com.example.themoviedb;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -10,8 +10,11 @@ import android.view.View;
 
 import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.ActivityMainBinding;
+import com.example.themoviedb.login.ui.LoginFragment;
+import com.example.themoviedb.main.ui.fragment.UserFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoginFragment.OnNavigateToMainMenuListener,
+        UserFragment.OnNavigateToLoginFragmentListener {
 
     private ActivityMainBinding binding;
     private NavController navController;
@@ -28,5 +31,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void setBottomNavigationVisible(boolean visible) {
         binding.bottomNavigation.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void navigateToMainMenu() {
+        navController.navigate(R.id.films_fragment);
+        setBottomNavigationVisible(true);
+    }
+
+    @Override
+    public void navigateToLoginFragment() {
+        navController.navigate(R.id.login_fragment);
+        setBottomNavigationVisible(false);
     }
 }
