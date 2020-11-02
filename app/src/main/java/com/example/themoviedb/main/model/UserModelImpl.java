@@ -1,5 +1,6 @@
 package com.example.themoviedb.main.model;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -8,24 +9,21 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.themoviedb.main.data.DeleteSessionResponseWrap;
 import com.example.themoviedb.main.data.SessionIdBodyWrap;
 import com.example.themoviedb.main.data.UserWrap;
+import com.example.themoviedb.main.network.MainService;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
+@Singleton
 public class UserModelImpl extends BaseMainModel implements UserModel {
 
-    private static UserModelImpl userModel;
-
-    public static UserModelImpl getInstance() {
-        if (userModel == null) {
-            userModel = new UserModelImpl();
-        }
-        return userModel;
-    }
-
-    public UserModelImpl() {
-        super();
+    @Inject
+    public UserModelImpl(MainService mainService, Context context) {
+        super(mainService, context);
     }
 
     private MutableLiveData<DeleteSessionResponseWrap> deleteSessionResponse = new MutableLiveData<>();

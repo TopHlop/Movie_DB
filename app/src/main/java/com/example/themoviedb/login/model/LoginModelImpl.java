@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.themoviedb.App;
 import com.example.themoviedb.R;
 import com.example.themoviedb.di.DI;
 import com.example.themoviedb.login.data.RequestTokenResponseWrap;
@@ -16,20 +15,19 @@ import com.example.themoviedb.login.data.UserDataWrap;
 import com.example.themoviedb.login.network.LoginService;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
+@Singleton
 public class LoginModelImpl implements LoginUseCase {
 
     private static final String TAG = "LoginModelImpl";
 
-    @Inject
-    LoginService apiLoginService;
-    @Inject
-    Context context;
+    private LoginService apiLoginService;
 
     private String apiKey;
     private final MutableLiveData<RequestTokenResponseWrap> createdRequestToken = new MutableLiveData<>();
@@ -39,17 +37,10 @@ public class LoginModelImpl implements LoginUseCase {
 
     private CompositeDisposable disposable;
 
-    private static LoginModelImpl loginModel;
-
-    public static LoginModelImpl getInstance() {
-        if (loginModel == null) {
-            loginModel = new LoginModelImpl();
-        }
-        return loginModel;
-    }
-
-    public LoginModelImpl() {
+    @Inject
+    public LoginModelImpl(LoginService apiLoginService, Context context) {
         DI.getAppComponent().inject(this);
+        this.apiLoginService = apiLoginService;
         apiKey = context.getResources().getString(R.string.api_key);
         disposable = new CompositeDisposable();
     }

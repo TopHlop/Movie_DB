@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.themoviedb.App;
 import com.example.themoviedb.SharedPreferencesHelper;
 import com.example.themoviedb.di.DI;
 import com.example.themoviedb.login.model.LoginUseCase;
@@ -18,8 +17,7 @@ public class LoginViewModel extends ViewModel {
 
     private static final String TAG = "LoginViewModel";
 
-    @Inject
-    SharedPreferencesHelper sharedPreferencesHelper;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
     private MutableLiveData<Boolean> isSuccessLogin = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -28,8 +26,9 @@ public class LoginViewModel extends ViewModel {
     private String password;
 
     @Inject
-    public LoginViewModel() {
-        loginModel = LoginModelImpl.getInstance();
+    public LoginViewModel(SharedPreferencesHelper sharedPreferencesHelper, LoginModelImpl loginModel) {
+        this.loginModel = loginModel;
+        this.sharedPreferencesHelper = sharedPreferencesHelper;
         DI.getAppComponent().inject(this);
         observeLiveData();
     }

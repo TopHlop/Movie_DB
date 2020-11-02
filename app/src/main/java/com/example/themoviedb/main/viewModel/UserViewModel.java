@@ -17,15 +17,15 @@ import javax.inject.Singleton;
 @Singleton
 public class UserViewModel extends ViewModel {
 
-    @Inject
-    SharedPreferencesHelper sharedPreferencesHelper;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
     private UserModel userModel;
     private MutableLiveData<Boolean> isSuccessDeleteSession = new MutableLiveData<>();
 
     @Inject
-    public UserViewModel() {
-        userModel = UserModelImpl.getInstance();
+    public UserViewModel(SharedPreferencesHelper sharedPreferencesHelper, UserModelImpl userModel) {
+        this.userModel = userModel;
+        this.sharedPreferencesHelper = sharedPreferencesHelper;
         DI.getAppComponent().inject(this);
         observeLiveData();
     }
