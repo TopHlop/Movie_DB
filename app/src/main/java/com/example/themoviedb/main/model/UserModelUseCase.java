@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData;
 import com.example.themoviedb.main.data.DeleteSessionResponseWrap;
 import com.example.themoviedb.main.data.UserWrap;
 
-public interface UserModel {
+public interface UserModelUseCase {
     LiveData<DeleteSessionResponseWrap> getDeleteSessionResponse();
     void deleteSession(String sessionId);
     void getUserData(String sessionId);

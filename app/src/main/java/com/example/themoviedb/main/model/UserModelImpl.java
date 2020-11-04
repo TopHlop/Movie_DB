@@ -19,7 +19,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @Singleton
-public class UserModelImpl extends BaseMainModel implements UserModel {
+public class UserModelImpl extends BaseMainModel implements UserModelUseCase {
 
     @Inject
     public UserModelImpl(MainService mainService, Context context) {

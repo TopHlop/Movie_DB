@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.themoviedb.SharedPreferencesHelper;
-import com.example.themoviedb.di.DI;
 import com.example.themoviedb.login.model.LoginUseCase;
 import com.example.themoviedb.login.model.LoginModelImpl;
 
@@ -26,7 +25,6 @@ public class LoginViewModel extends ViewModel {
     public LoginViewModel(SharedPreferencesHelper sharedPreferencesHelper, LoginModelImpl loginModel) {
         this.loginModel = loginModel;
         this.sharedPreferencesHelper = sharedPreferencesHelper;
-        DI.getAppComponent().inject(this);
         observeLiveData();
     }
 

@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.themoviedb.R;
-import com.example.themoviedb.di.DI;
 import com.example.themoviedb.login.data.ErrorLoginWrap;
 import com.example.themoviedb.login.data.RequestTokenResponseWrap;
 import com.example.themoviedb.login.data.RequestTokenWrap;
@@ -43,7 +42,6 @@ public class LoginModelImpl implements LoginUseCase {
 
     @Inject
     public LoginModelImpl(LoginService apiLoginService, Context context, Gson gson) {
-        DI.getAppComponent().inject(this);
         this.apiLoginService = apiLoginService;
         this.gson = gson;
         apiKey = context.getResources().getString(R.string.api_key);

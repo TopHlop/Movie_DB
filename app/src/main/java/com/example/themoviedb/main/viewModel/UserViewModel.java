@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.themoviedb.App;
 import com.example.themoviedb.SharedPreferencesHelper;
-import com.example.themoviedb.di.DI;
 import com.example.themoviedb.main.data.UserWrap;
-import com.example.themoviedb.main.model.UserModel;
+import com.example.themoviedb.main.model.UserModelUseCase;
 import com.example.themoviedb.main.model.UserModelImpl;
 
 import javax.inject.Inject;
@@ -19,14 +17,13 @@ public class UserViewModel extends ViewModel {
 
     private SharedPreferencesHelper sharedPreferencesHelper;
 
-    private UserModel userModel;
+    private UserModelUseCase userModel;
     private MutableLiveData<Boolean> isSuccessDeleteSession = new MutableLiveData<>();
 
     @Inject
     public UserViewModel(SharedPreferencesHelper sharedPreferencesHelper, UserModelImpl userModel) {
         this.userModel = userModel;
         this.sharedPreferencesHelper = sharedPreferencesHelper;
-        DI.getAppComponent().inject(this);
         observeLiveData();
     }
 
@@ -35,6 +32,7 @@ public class UserViewModel extends ViewModel {
             //false doesn't be (only fail in response, if something wrong)
             if (deleteSessionResponse.isSuccess()) {
                 isSuccessDeleteSession.postValue(true);
+                //TODO:удалить данные с FilmSearchModelImpl, UserModelImpl
                 sharedPreferencesHelper.deleteDataByKey(SharedPreferencesHelper.KEY_SESSION_ID);
             }
         });
@@ -42,7 +40,7 @@ public class UserViewModel extends ViewModel {
 
     public void getUserData() {
         String sessionId = sharedPreferencesHelper.getString(SharedPreferencesHelper.KEY_SESSION_ID, null);
-        if(sessionId != null) {
+        if(sessionId != null && userModel.getUser().getValue() == null) {
             userModel.getUserData(sessionId);
         } else {
             //ошибка хранения session_id

@@ -15,8 +15,11 @@
     <string name="title_films">Фильмы</string>
     <string name="title_favorites">Избранное</string>
     <string name="title_user">Профиль</string>
+    <string name="not_found_films_message">По вашему запросу ничего\n не найдено :(</string>
 
     <string name="base_url">https://api.themoviedb.org/3/</string>
     <string name="api_key">f974b8f49d7e213fe108f60a32c0aac7</string>
     <string name="gravatar_url">https://www.gravatar.com/avatar/%1$s?s=%2$d</string>
+    <string name="poster_url">http://image.tmdb.org/t/p/w185/%1$s</string>
+    <string name="search_language">ru-RUS</string>
 </resources>

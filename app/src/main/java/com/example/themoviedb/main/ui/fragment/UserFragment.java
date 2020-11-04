@@ -11,13 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.FragmentUserBinding;
 import com.example.themoviedb.di.DI;
 import com.example.themoviedb.main.ui.CircularAvatarIconTransformation;
-import com.example.themoviedb.MainActivity;
 import com.example.themoviedb.main.viewModel.UserViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -59,6 +57,7 @@ public class UserFragment extends Fragment {
         userViewModel = new ViewModelProvider(this, viewModelFactory).get(UserViewModel.class);
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             binding.nameText.setText(user.getName());
+            binding.userNameText.setText(user.getUsername());
             Picasso.get()
                     .load(String.format(getString(R.string.gravatar_url),
                             user.getAvatar().getGravatar().getHash(),

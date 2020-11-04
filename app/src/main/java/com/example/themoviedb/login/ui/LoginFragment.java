@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -59,7 +60,7 @@ public class LoginFragment extends Fragment {
 
         DI.getAppComponent().inject(this);
         loginViewModel = new ViewModelProvider(this, viewModelFactory).get(LoginViewModel.class);
-        if(loginViewModel.isUserLogin()) {
+        if (loginViewModel.isUserLogin()) {
             listener.navigateToMainMenu();
         }
 
@@ -120,8 +121,7 @@ public class LoginFragment extends Fragment {
         };
 
         binding.passwordEditText.setOnEditorActionListener((view, actionId, keyEvent) -> {
-            if(actionId == EditorInfo.IME_ACTION_DONE &&
-                    Objects.requireNonNull(binding.loginEditText.getText()).length() != 0) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 loginUser();
                 return true;
             }
@@ -137,11 +137,11 @@ public class LoginFragment extends Fragment {
     private void setLoginButtonClickable(boolean clickable) {
         binding.loginButton.setClickable(clickable);
         binding.loginButton.setBackgroundTintList(clickable ?
-                getResources().getColorStateList(R.color.button_orange_color) :
-                getResources().getColorStateList(R.color.unclicked_button_color));
+                ContextCompat.getColorStateList(Objects.requireNonNull(getContext()), R.color.button_orange_color) :
+                ContextCompat.getColorStateList(Objects.requireNonNull(getContext()), R.color.unclicked_button_color));
         binding.loginButton.setTextColor(clickable ?
-                getResources().getColor(R.color.text_light_color) :
-                getResources().getColor(R.color.text_gray_color));
+                ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.text_light_color) :
+                ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.text_gray_color));
     }
 
     public interface OnNavigateToMainMenuListener {

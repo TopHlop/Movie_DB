@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.themoviedb.login.viewModel.LoginViewModel;
+import com.example.themoviedb.main.viewModel.FilmsSearchViewModel;
 import com.example.themoviedb.main.viewModel.MainViewModel;
 import com.example.themoviedb.main.viewModel.UserViewModel;
 import com.example.themoviedb.main.viewModel.ViewModelFactory;
@@ -29,6 +30,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(UserViewModel.class)
     abstract ViewModel bindUserViewModel(UserViewModel userViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FilmsSearchViewModel.class)
+    abstract ViewModel bindFilmsSearchViewModel(FilmsSearchViewModel filmsSearchViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory viewModelFactory);
