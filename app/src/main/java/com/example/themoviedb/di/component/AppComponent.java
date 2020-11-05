@@ -1,5 +1,6 @@
 package com.example.themoviedb.di.component;
 
+import com.example.themoviedb.MainActivity;
 import com.example.themoviedb.login.ui.LoginFragment;
 import com.example.themoviedb.di.module.ApiModule;
 import com.example.themoviedb.di.module.AppModule;
@@ -19,4 +20,5 @@ public interface AppComponent {
     void inject(LoginFragment loginFragment);
     void inject(FilmsFragment filmsFragment);
     void inject(FavoritesFragment favoritesFragment);
+    void inject(MainActivity mainActivity);
 }

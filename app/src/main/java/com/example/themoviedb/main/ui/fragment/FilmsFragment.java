@@ -50,9 +50,10 @@ public class FilmsFragment extends Fragment {
 
 
         filmsSearchViewModel.getResultSearch().observe(getViewLifecycleOwner(), resultSearch -> {
-            adapter.setFilms(resultSearch);
             if(resultSearch.size() == 0) {
                 notFoundFilms(true);
+            } else {
+                adapter.setFilms(resultSearch);
             }
         });
 

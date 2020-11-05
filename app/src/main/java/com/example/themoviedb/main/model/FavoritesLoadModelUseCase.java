@@ -10,4 +10,5 @@ public interface FavoritesLoadModelUseCase {
     void loadFavorites(int accountId, String sessionId);
     LiveData<List<FilmWrap>> getFavoritesFilmsResult();
     void clearDisposable();
+    void clearData();
 }

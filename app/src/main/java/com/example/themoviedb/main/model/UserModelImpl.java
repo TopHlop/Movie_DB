@@ -81,4 +81,12 @@ public class UserModelImpl extends BaseMainModel implements UserModelUseCase {
             disposable.clear();
         }
     }
+
+    @Override
+    public void clearData() {
+        deleteSessionResponse.postValue(null);
+        if(!user.hasObservers()) {
+            user = new MutableLiveData<>();
+        }
+    }
 }

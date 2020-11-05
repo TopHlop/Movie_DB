@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.themoviedb.R;
 import com.example.themoviedb.main.data.FilmWrap;
 import com.example.themoviedb.main.data.PagingEnvelope;
 import com.example.themoviedb.main.network.MainService;
@@ -33,6 +32,16 @@ public class FilmSearchModelImpl extends BaseMainModel implements FilmsSearchMod
 
     public LiveData<String> getQueryString() {
         return queryString;
+    }
+
+    @Override
+    public void clearData() {
+        if(!resultSearch.hasObservers()) {
+            resultSearch = new MutableLiveData<>();
+        }
+        if(!queryString.hasObservers()) {
+            queryString = new MutableLiveData<>();
+        }
     }
 
     public LiveData<List<FilmWrap>> getResultSearch() {

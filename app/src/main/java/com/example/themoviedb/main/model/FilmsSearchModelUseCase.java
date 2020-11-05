@@ -1,7 +1,6 @@
 package com.example.themoviedb.main.model;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.themoviedb.main.data.FilmWrap;
 
@@ -12,4 +11,5 @@ public interface FilmsSearchModelUseCase {
     void clearDisposable();
     LiveData<List<FilmWrap>> getResultSearch();
     LiveData<String> getQueryString();
+    void clearData();
 }

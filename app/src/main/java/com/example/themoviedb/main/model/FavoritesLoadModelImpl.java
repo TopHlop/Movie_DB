@@ -55,4 +55,11 @@ public class FavoritesLoadModelImpl extends BaseMainModel implements FavoritesLo
             disposable.clear();
         }
     }
+
+    @Override
+    public void clearData() {
+        if(!favoritesFilmsResult.hasObservers()) {
+            favoritesFilmsResult = new MutableLiveData<>();
+        }
+    }
 }

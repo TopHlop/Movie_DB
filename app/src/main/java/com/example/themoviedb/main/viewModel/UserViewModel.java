@@ -10,9 +10,7 @@ import com.example.themoviedb.main.model.UserModelUseCase;
 import com.example.themoviedb.main.model.UserModelImpl;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
 public class UserViewModel extends ViewModel {
 
     private SharedPreferencesHelper sharedPreferencesHelper;
@@ -30,17 +28,18 @@ public class UserViewModel extends ViewModel {
     private void observeLiveData() {
         userModel.getDeleteSessionResponse().observeForever(deleteSessionResponse -> {
             //false doesn't be (only fail in response, if something wrong)
-            if (deleteSessionResponse.isSuccess()) {
-                isSuccessDeleteSession.postValue(true);
-                //TODO:удалить данные с FilmSearchModelImpl, UserModelImpl
-                sharedPreferencesHelper.deleteDataByKey(SharedPreferencesHelper.KEY_SESSION_ID);
+            if(deleteSessionResponse != null) {
+                if (deleteSessionResponse.isSuccess()) {
+                    isSuccessDeleteSession.postValue(true);
+                    sharedPreferencesHelper.deleteDataByKey(SharedPreferencesHelper.KEY_SESSION_ID);
+                }
             }
         });
     }
 
     public void getUserData() {
         String sessionId = sharedPreferencesHelper.getString(SharedPreferencesHelper.KEY_SESSION_ID, null);
-        if(sessionId != null && userModel.getUser().getValue() == null) {
+        if (sessionId != null && userModel.getUser().getValue() == null) {
             userModel.getUserData(sessionId);
         } else {
             //ошибка хранения session_id
@@ -49,7 +48,7 @@ public class UserViewModel extends ViewModel {
 
     public void deleteSession() {
         String sessionId = sharedPreferencesHelper.getString(SharedPreferencesHelper.KEY_SESSION_ID, null);
-        if(sessionId != null) {
+        if (sessionId != null) {
             userModel.deleteSession(sessionId);
         } else {
             //ошибка хранения session_id
