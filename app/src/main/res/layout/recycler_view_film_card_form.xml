@@ -27,7 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:textAppearance="@style/LightTextStyle"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:maxLines="2"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/original_title_text"
@@ -35,7 +37,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:textAppearance="@style/GrayTextStyle"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:maxLines="2"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/genre_text"
@@ -43,7 +47,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:textAppearance="@style/LightTextStyle"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:maxLines="2"
+        android:ellipsize="end"/>
 
     <LinearLayout
         android:layout_width="match_parent"

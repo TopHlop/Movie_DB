@@ -79,10 +79,10 @@ public class FilmsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             this.binding = binding;
         }
 
-        @SuppressLint("UseCompatLoadingForDrawables")
+        @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
         void bind(FilmWrap film) {
             binding.titleText.setText(film.getTitle());
-            binding.originalTitleText.setText(film.getOriginalTitle());
+            binding.originalTitleText.setText(film.getOriginalTitle() + film.getYearReleaseDate());
             binding.voteAverageText.setText(String.valueOf(film.getVoteAverage()));
             binding.voteCountText.setText(String.valueOf(film.getVoteCount()));
             Context context = binding.poster.getContext();
@@ -102,10 +102,10 @@ public class FilmsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             this.binding = binding;
         }
 
-        @SuppressLint("UseCompatLoadingForDrawables")
+        @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
         void bind(FilmWrap film) {
             binding.titleText.setText(film.getTitle());
-            binding.originalTitleText.setText(film.getOriginalTitle());
+            binding.originalTitleText.setText(film.getOriginalTitle() + film.getYearReleaseDate());
             binding.voteAverageText.setText(String.valueOf(film.getVoteAverage()));
             binding.voteCountText.setText(String.valueOf(film.getVoteCount()));
             Context context = binding.poster.getContext();

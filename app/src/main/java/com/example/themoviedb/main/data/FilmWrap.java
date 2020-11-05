@@ -34,6 +34,18 @@ public class FilmWrap {
     @Expose
     private List<Integer> genreIds;
 
+    public String getYearReleaseDate() {
+        if(releaseDate == null) {
+            return "";
+        } else {
+            if (releaseDate.equals("")) {
+                return "";
+            } else {
+                return " (" + releaseDate.substring(0, 4) + ")";
+            }
+        }
+    }
+
     public int getId() {
         return id;
     }

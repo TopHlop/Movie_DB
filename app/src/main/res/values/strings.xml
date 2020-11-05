@@ -21,5 +21,8 @@
     <string name="api_key">f974b8f49d7e213fe108f60a32c0aac7</string>
     <string name="gravatar_url">https://www.gravatar.com/avatar/%1$s?s=%2$d</string>
     <string name="poster_url">http://image.tmdb.org/t/p/w185/%1$s</string>
-    <string name="search_language">ru-RUS</string>
+    <string name="search_language">ru-RU</string>
+    <string name="favorite_films_title">Избранное</string>
+    <string name="not_found_favorite_films_message">Вы не добавили ни одного фильма</string>
+    <string name="found_favorite_films_message">Найти любимые фильмы</string>
 </resources>

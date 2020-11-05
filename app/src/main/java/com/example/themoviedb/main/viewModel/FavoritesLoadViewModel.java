@@ -5,54 +5,47 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.themoviedb.SharedPreferencesHelper;
 import com.example.themoviedb.main.data.FilmWrap;
-import com.example.themoviedb.main.data.PagingEnvelope;
-import com.example.themoviedb.main.model.FilmSearchModelImpl;
-import com.example.themoviedb.main.model.FilmsSearchModelUseCase;
+import com.example.themoviedb.main.model.FavoritesLoadModelImpl;
+import com.example.themoviedb.main.model.FavoritesLoadModelUseCase;
 import com.example.themoviedb.main.model.UserModelImpl;
 import com.example.themoviedb.main.model.UserModelUseCase;
 import com.example.themoviedb.main.ui.RecyclerViewForm;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
-public class FilmsSearchViewModel extends ViewModel {
+public class FavoritesLoadViewModel extends ViewModel {
 
+    private FavoritesLoadModelUseCase favoritesSearchModel;
     private SharedPreferencesHelper sharedPreferencesHelper;
-    private FilmsSearchModelUseCase filmsSearchModel;
     private UserModelUseCase userModel;
 
+
     @Inject
-    public FilmsSearchViewModel(FilmSearchModelImpl filmSearchModel, UserModelImpl userModel,
-                                SharedPreferencesHelper sharedPreferencesHelper) {
-        this.sharedPreferencesHelper = sharedPreferencesHelper;
+    public FavoritesLoadViewModel(FavoritesLoadModelImpl favoritesSearchModel,
+                                  UserModelImpl userModel,
+                                  SharedPreferencesHelper sharedPreferencesHelper) {
+        this.favoritesSearchModel = favoritesSearchModel;
         this.userModel = userModel;
-        this.filmsSearchModel = filmSearchModel;
-        loadUserData();
+        this.sharedPreferencesHelper = sharedPreferencesHelper;
     }
 
-    //get accountId for add, delete, load favorites
-    private void loadUserData() {
-        if(userModel.getUser().getValue() == null) {
+    public void loadFavoriteFilms() {
+        if(favoritesSearchModel.getFavoritesFilmsResult().getValue() == null) {
             String sessionId = sharedPreferencesHelper.getString(SharedPreferencesHelper.KEY_SESSION_ID, null);
-            if (sessionId != null) {
-                userModel.getUserData(sessionId);
+            int accountId = Objects.requireNonNull(userModel.getUser().getValue()).getId();
+            if(sessionId != null) {
+                favoritesSearchModel.loadFavorites(accountId, sessionId);
             } else {
                 //ошибка хранения sessionId
             }
         }
     }
 
-    public void searchFilms(String query) {
-        filmsSearchModel.searchFilms(query);
-    }
-
-    public LiveData<List<FilmWrap>> getResultSearch() {
-        return filmsSearchModel.getResultSearch();
-    }
-
-    public LiveData<String> getQueryString() {
-        return filmsSearchModel.getQueryString();
+    public LiveData<List<FilmWrap>> getFavoriteFilmsResult() {
+        return favoritesSearchModel.getFavoritesFilmsResult();
     }
 
     public void setRecyclerViewForm(RecyclerViewForm recyclerViewForm) {
@@ -66,6 +59,6 @@ public class FilmsSearchViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        filmsSearchModel.clearDisposable();
+        favoritesSearchModel.clearDisposable();
     }
 }
