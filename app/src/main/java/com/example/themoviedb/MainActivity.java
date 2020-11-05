@@ -8,13 +8,13 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.ActivityMainBinding;
 import com.example.themoviedb.login.ui.LoginFragment;
+import com.example.themoviedb.main.ui.fragment.FavoritesFragment;
 import com.example.themoviedb.main.ui.fragment.UserFragment;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnNavigateToMainMenuListener,
-        UserFragment.OnNavigateToLoginFragmentListener {
+        UserFragment.OnNavigateToLoginFragmentListener, FavoritesFragment.OnNavigateToFilmsFragmentListener {
 
     private ActivityMainBinding binding;
     private NavController navController;
@@ -43,5 +43,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnN
     public void navigateToLoginFragment() {
         navController.navigate(R.id.login_fragment);
         setBottomNavigationVisible(false);
+    }
+
+    @Override
+    public void navigateToFilmsFragment() {
+        navController.navigate(R.id.films_fragment);
     }
 }

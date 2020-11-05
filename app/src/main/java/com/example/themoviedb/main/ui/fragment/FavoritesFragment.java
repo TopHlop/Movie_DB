@@ -1,5 +1,6 @@
 package com.example.themoviedb.main.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,11 +26,23 @@ public class FavoritesFragment extends Fragment {
 
     private FragmentFavoritesBinding binding;
 
+    private OnNavigateToFilmsFragmentListener listener;
+
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private FavoritesLoadViewModel favoritesLoadViewModel;
 
     private FilmsAdapter adapter;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            listener = (OnNavigateToFilmsFragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnNavigateToFilmsFragmentListener");
+        }
+    }
 
     @Nullable
     @Override
@@ -50,7 +63,7 @@ public class FavoritesFragment extends Fragment {
         changeRecyclerViewForm(favoritesLoadViewModel.getRecyclerViewForm());
 
         favoritesLoadViewModel.getFavoriteFilmsResult().observe(getViewLifecycleOwner(), favoriteFilmsResult -> {
-            if(favoriteFilmsResult.size() == 0) {
+            if (favoriteFilmsResult.size() == 0) {
                 notFoundFavorites(true);
             } else {
                 adapter.setFilms(favoriteFilmsResult);
@@ -70,6 +83,10 @@ public class FavoritesFragment extends Fragment {
                     break;
             }
         });
+
+        binding.foundFilmsLink.setOnClickListener(view -> {
+            listener.navigateToFilmsFragment();
+        });
     }
 
     private void setRecyclerViewLayoutManagerAndIcon(RecyclerViewForm recyclerViewForm) {
@@ -88,7 +105,7 @@ public class FavoritesFragment extends Fragment {
 
     private void notFoundFavorites(boolean isNotFound) {
         binding.recyclerViewFavorites.setVisibility(isNotFound ? View.GONE : View.VISIBLE);
-        binding.notFoundLayout.setVisibility(isNotFound? View.VISIBLE : View.GONE);
+        binding.notFoundLayout.setVisibility(isNotFound ? View.VISIBLE : View.GONE);
         binding.searchSettingLayout.setVisibility(isNotFound ? View.INVISIBLE : View.VISIBLE);
     }
 
@@ -100,5 +117,9 @@ public class FavoritesFragment extends Fragment {
 
     private void loadFavoriteFilms() {
         favoritesLoadViewModel.loadFavoriteFilms();
+    }
+
+    public interface OnNavigateToFilmsFragmentListener {
+        void navigateToFilmsFragment();
     }
 }
