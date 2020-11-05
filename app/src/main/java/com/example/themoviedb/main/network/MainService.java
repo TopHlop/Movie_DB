@@ -19,6 +19,7 @@ public interface MainService {
     Single<PagingEnvelope<FilmWrap>> getMovies(@Query("api_key") String apiKey,
                                                @Query("language") String language,
                                                @Query("query") String query,
+                                               @Query("include_adult") boolean includeAdult,
                                                @Query("page") int page);
 
     @GET("account/{account_id}/favorite/movies")

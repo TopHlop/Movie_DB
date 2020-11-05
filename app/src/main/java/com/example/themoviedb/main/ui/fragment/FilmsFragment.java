@@ -56,10 +56,9 @@ public class FilmsFragment extends Fragment {
             }
         });
 
-        /*filmsSearchViewModel.getQueryString().observe(getViewLifecycleOwner(), queryString -> {
+        filmsSearchViewModel.getQueryString().observe(getViewLifecycleOwner(), queryString -> {
             binding.searchFilm.setQuery(queryString, false);
-            binding.searchFilm.setEnabled(true);
-        });*/
+        });
 
         binding.searchFilm.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

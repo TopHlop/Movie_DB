@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.themoviedb.SharedPreferencesHelper;
 import com.example.themoviedb.main.data.FilmWrap;
-import com.example.themoviedb.main.data.PagingEnvelope;
 import com.example.themoviedb.main.model.FilmSearchModelImpl;
 import com.example.themoviedb.main.model.FilmsSearchModelUseCase;
 import com.example.themoviedb.main.model.UserModelImpl;
@@ -13,6 +12,7 @@ import com.example.themoviedb.main.model.UserModelUseCase;
 import com.example.themoviedb.main.ui.RecyclerViewForm;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -44,7 +44,7 @@ public class FilmsSearchViewModel extends ViewModel {
     }
 
     public void searchFilms(String query) {
-        filmsSearchModel.searchFilms(query);
+        filmsSearchModel.searchFilms(query, Objects.requireNonNull(userModel.getUser().getValue()).isIncludeAdult());
     }
 
     public LiveData<List<FilmWrap>> getResultSearch() {

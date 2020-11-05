@@ -16,6 +16,17 @@ public class UserWrap {
     @SerializedName("id")
     @Expose
     private int id;
+    @SerializedName("include_adult")
+    @Expose
+    private boolean includeAdult;
+
+    public boolean isIncludeAdult() {
+        return includeAdult;
+    }
+
+    public void setIncludeAdult(boolean includeAdult) {
+        this.includeAdult = includeAdult;
+    }
 
     public int getId() {
         return id;

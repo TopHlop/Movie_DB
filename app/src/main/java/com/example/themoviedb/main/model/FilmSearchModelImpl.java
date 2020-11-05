@@ -40,9 +40,9 @@ public class FilmSearchModelImpl extends BaseMainModel implements FilmsSearchMod
     }
 
     @Override
-    public void searchFilms(String query) {
+    public void searchFilms(String query, boolean includeAdult) {
         queryString.postValue(query);
-        disposable.add(apiMainService.getMovies(apiKey, language, query, 1)
+        disposable.add(apiMainService.getMovies(apiKey, language, query, includeAdult, 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<PagingEnvelope<FilmWrap>>() {
