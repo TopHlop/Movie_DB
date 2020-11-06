@@ -12,14 +12,21 @@ import android.view.View;
 import com.example.themoviedb.databinding.ActivityMainBinding;
 import com.example.themoviedb.di.DI;
 import com.example.themoviedb.login.ui.LoginFragment;
+import com.example.themoviedb.main.model.FavoritesLoadModelImpl;
+import com.example.themoviedb.main.model.FilmSearchModelImpl;
 import com.example.themoviedb.main.ui.fragment.FavoritesFragment;
+import com.example.themoviedb.main.ui.fragment.FavoritesFragmentDirections;
+import com.example.themoviedb.main.ui.fragment.FilmDescriptionFragment;
+import com.example.themoviedb.main.ui.fragment.FilmsFragment;
+import com.example.themoviedb.main.ui.fragment.FilmsFragmentDirections;
 import com.example.themoviedb.main.ui.fragment.UserFragment;
 import com.example.themoviedb.main.viewModel.MainViewModel;
 
 import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnNavigateToMainMenuListener,
-        UserFragment.OnNavigateToLoginFragmentListener, FavoritesFragment.OnNavigateToFilmsFragmentListener {
+        UserFragment.OnNavigateToLoginFragmentListener, FavoritesFragment.OnNavigateToFragmentListener,
+        FilmsFragment.OnNavigateToDescriptionFragmentListener, FilmDescriptionFragment.OnNavigateBackListener {
 
     private ActivityMainBinding binding;
     private NavController navController;
@@ -61,5 +68,26 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnN
     @Override
     public void navigateToFilmsFragment() {
         navController.navigate(R.id.films_fragment);
+    }
+
+    @Override
+    public void navigateToDescriptionFragmentFromFavorites(int id) {
+        FavoritesFragmentDirections.ActionFavoritesFragmentToFilmDescriptionFragment action =
+                FavoritesFragmentDirections.actionFavoritesFragmentToFilmDescriptionFragment();
+        action.setIdFilm(id).setSourceName(FavoritesLoadModelImpl.FAVORITES_SOURCE);
+        navController.navigate(action);
+    }
+
+    @Override
+    public void navigateToDescriptionFragmentFromFilms(int id) {
+        FilmsFragmentDirections.ActionFilmsFragmentToFilmDescriptionFragment action =
+                FilmsFragmentDirections.actionFilmsFragmentToFilmDescriptionFragment();
+        action.setIdFilm(id).setSourceName(FilmSearchModelImpl.FILM_SEARCH_SOURCE);
+        navController.navigate(action);
+    }
+
+    @Override
+    public void navigateBack() {
+        navController.popBackStack();
     }
 }

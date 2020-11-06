@@ -22,6 +22,8 @@ import io.reactivex.schedulers.Schedulers;
 @Singleton
 public class FilmSearchModelImpl extends BaseMainModel implements FilmsSearchModelUseCase {
 
+    public static final String FILM_SEARCH_SOURCE = "filmSearch";
+
     MutableLiveData<List<FilmWrap>> resultSearch = new MutableLiveData<>();
     MutableLiveData<String> queryString = new MutableLiveData<>();
 

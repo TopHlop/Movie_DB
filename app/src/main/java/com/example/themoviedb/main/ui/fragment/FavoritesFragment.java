@@ -26,7 +26,7 @@ public class FavoritesFragment extends Fragment {
 
     private FragmentFavoritesBinding binding;
 
-    private OnNavigateToFilmsFragmentListener listener;
+    private OnNavigateToFragmentListener listener;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -38,7 +38,7 @@ public class FavoritesFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            listener = (OnNavigateToFilmsFragmentListener) context;
+            listener = (OnNavigateToFragmentListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnNavigateToFilmsFragmentListener");
         }
@@ -60,6 +60,12 @@ public class FavoritesFragment extends Fragment {
         loadFavoriteFilms();
 
         adapter = new FilmsAdapter();
+        adapter.attachDelegate(new FilmsAdapter.FilmsDelegate() {
+            @Override
+            public void openDescription(int id) {
+                listener.navigateToDescriptionFragmentFromFavorites(id);
+            }
+        });
         changeRecyclerViewForm(favoritesLoadViewModel.getRecyclerViewForm());
 
         favoritesLoadViewModel.getFavoriteFilmsResult().observe(getViewLifecycleOwner(), favoriteFilmsResult -> {
@@ -119,7 +125,8 @@ public class FavoritesFragment extends Fragment {
         favoritesLoadViewModel.loadFavoriteFilms();
     }
 
-    public interface OnNavigateToFilmsFragmentListener {
+    public interface OnNavigateToFragmentListener {
         void navigateToFilmsFragment();
+        void navigateToDescriptionFragmentFromFavorites(int id);
     }
 }

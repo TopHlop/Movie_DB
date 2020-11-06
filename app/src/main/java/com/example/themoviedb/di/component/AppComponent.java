@@ -6,6 +6,7 @@ import com.example.themoviedb.di.module.ApiModule;
 import com.example.themoviedb.di.module.AppModule;
 import com.example.themoviedb.di.module.ViewModelModule;
 import com.example.themoviedb.main.ui.fragment.FavoritesFragment;
+import com.example.themoviedb.main.ui.fragment.FilmDescriptionFragment;
 import com.example.themoviedb.main.ui.fragment.FilmsFragment;
 import com.example.themoviedb.main.ui.fragment.UserFragment;
 
@@ -21,4 +22,5 @@ public interface AppComponent {
     void inject(FilmsFragment filmsFragment);
     void inject(FavoritesFragment favoritesFragment);
     void inject(MainActivity mainActivity);
+    void inject(FilmDescriptionFragment filmDescriptionFragment);
 }

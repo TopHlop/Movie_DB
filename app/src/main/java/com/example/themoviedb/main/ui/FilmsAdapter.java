@@ -23,10 +23,20 @@ public class FilmsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private List<FilmWrap> films = new LinkedList<>();
     private RecyclerViewForm recyclerViewForm;
 
+    private FilmsDelegate delegate;
+
+    public interface FilmsDelegate {
+        void openDescription(int id);
+    }
+
     public void setFilms(List<FilmWrap> films) {
         this.films.clear();
         this.films.addAll(films);
         notifyDataSetChanged();
+    }
+
+    public void attachDelegate(FilmsDelegate delegate) {
+        this.delegate = delegate;
     }
 
     public void changeRecyclerViewForm(RecyclerViewForm recyclerViewForm) {
@@ -44,11 +54,11 @@ public class FilmsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         switch (recyclerViewForm) {
             case CARD_VIEW:
                 RecyclerViewFilmCardFormBinding bindingList = RecyclerViewFilmCardFormBinding.inflate(inflater, parent, false);
-                return new ViewHolderFilmsCard(bindingList);
+                return new ViewHolderFilmsCard(bindingList, delegate);
             case LIST_VIEW:
             default:
                 RecyclerViewFilmListFormBinding bindingCard = RecyclerViewFilmListFormBinding.inflate(inflater, parent, false);
-                return new ViewHolderFilmsList(bindingCard);
+                return new ViewHolderFilmsList(bindingCard, delegate);
         }
     }
 
@@ -73,14 +83,19 @@ public class FilmsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public class ViewHolderFilmsList extends RecyclerView.ViewHolder {
         RecyclerViewFilmListFormBinding binding;
+        FilmsDelegate delegate;
 
-        ViewHolderFilmsList(RecyclerViewFilmListFormBinding binding) {
+        ViewHolderFilmsList(RecyclerViewFilmListFormBinding binding, FilmsDelegate delegate) {
             super(binding.getRoot());
             this.binding = binding;
+            this.delegate = delegate;
         }
 
         @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
         void bind(FilmWrap film) {
+            binding.itemLayout.setOnClickListener(view -> {
+                delegate.openDescription(film.getId());
+            });
             binding.titleText.setText(film.getTitle());
             binding.originalTitleText.setText(film.getOriginalTitle() + film.getYearReleaseDate());
             binding.voteAverageText.setText(String.valueOf(film.getVoteAverage()));
@@ -96,14 +111,19 @@ public class FilmsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public class ViewHolderFilmsCard extends RecyclerView.ViewHolder {
         RecyclerViewFilmCardFormBinding binding;
+        FilmsDelegate delegate;
 
-        ViewHolderFilmsCard(RecyclerViewFilmCardFormBinding binding) {
+        ViewHolderFilmsCard(RecyclerViewFilmCardFormBinding binding, FilmsDelegate delegate) {
             super(binding.getRoot());
             this.binding = binding;
+            this.delegate = delegate;
         }
 
         @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
         void bind(FilmWrap film) {
+            binding.itemLayout.setOnClickListener(view -> {
+                delegate.openDescription(film.getId());
+            });
             binding.titleText.setText(film.getTitle());
             binding.originalTitleText.setText(film.getOriginalTitle() + film.getYearReleaseDate());
             binding.voteAverageText.setText(String.valueOf(film.getVoteAverage()));
@@ -116,6 +136,4 @@ public class FilmsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     .into(binding.poster);
         }
     }
-
-
 }

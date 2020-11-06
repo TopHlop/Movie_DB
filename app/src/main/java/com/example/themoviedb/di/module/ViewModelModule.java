@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.themoviedb.login.viewModel.LoginViewModel;
+import com.example.themoviedb.main.viewModel.DescriptionFilmViewModel;
 import com.example.themoviedb.main.viewModel.FavoritesLoadViewModel;
 import com.example.themoviedb.main.viewModel.FilmsSearchViewModel;
 import com.example.themoviedb.main.viewModel.MainViewModel;
@@ -41,6 +42,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FavoritesLoadViewModel.class)
     abstract ViewModel bindFavoritesLoadViewModel(FavoritesLoadViewModel favoritesLoadViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DescriptionFilmViewModel.class)
+    abstract ViewModel bindDescriptionFilmViewModel(DescriptionFilmViewModel descriptionFilmViewModel);
 
 
     @Binds

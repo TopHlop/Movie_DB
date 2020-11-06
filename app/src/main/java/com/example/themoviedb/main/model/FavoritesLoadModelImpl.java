@@ -22,6 +22,8 @@ import io.reactivex.schedulers.Schedulers;
 @Singleton
 public class FavoritesLoadModelImpl extends BaseMainModel implements FavoritesLoadModelUseCase {
 
+    public static final String FAVORITES_SOURCE = "favorites";
+
     private MutableLiveData<List<FilmWrap>> favoritesFilmsResult = new MutableLiveData<>();
 
     @Inject

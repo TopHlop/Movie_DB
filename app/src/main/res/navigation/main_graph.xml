@@ -10,11 +10,23 @@
     <fragment
         android:id="@+id/films_fragment"
         android:name="com.example.themoviedb.main.ui.fragment.FilmsFragment"
-        android:label="FilmsFragment" />
+        android:label="FilmsFragment" >
+        <action
+            android:id="@+id/action_films_fragment_to_film_description_fragment"
+            app:destination="@id/film_description_fragment"
+            app:popUpTo="@id/films_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/favorites_fragment"
         android:name="com.example.themoviedb.main.ui.fragment.FavoritesFragment"
-        android:label="FavoritesFragment" />
+        android:label="FavoritesFragment" >
+        <action
+            android:id="@+id/action_favorites_fragment_to_film_description_fragment"
+            app:destination="@id/film_description_fragment"
+            app:popUpTo="@id/favorites_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/user_fragment"
         android:name="com.example.themoviedb.main.ui.fragment.UserFragment"
@@ -22,5 +34,14 @@
     <fragment
         android:id="@+id/film_description_fragment"
         android:name="com.example.themoviedb.main.ui.fragment.FilmDescriptionFragment"
-        android:label="FilmDescriptionFragment" />
+        android:label="FilmDescriptionFragment" >
+        <argument
+            android:name="idFilm"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="sourceName"
+            app:argType="string"
+            android:defaultValue="null" />
+    </fragment>
 </navigation>

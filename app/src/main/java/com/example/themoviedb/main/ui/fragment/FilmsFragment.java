@@ -1,5 +1,6 @@
 package com.example.themoviedb.main.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,12 +26,23 @@ import javax.inject.Inject;
 public class FilmsFragment extends Fragment {
 
     private FragmentFilmsBinding binding;
+    private OnNavigateToDescriptionFragmentListener listener;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private FilmsSearchViewModel filmsSearchViewModel;
 
     private FilmsAdapter adapter;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            listener = (FilmsFragment.OnNavigateToDescriptionFragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnNavigateToDescriptionFragmentListener");
+        }
+    }
 
     @Nullable
     @Override
@@ -39,6 +51,8 @@ public class FilmsFragment extends Fragment {
         return binding.getRoot();
     }
 
+
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -46,6 +60,12 @@ public class FilmsFragment extends Fragment {
         filmsSearchViewModel = new ViewModelProvider(this, viewModelFactory).get(FilmsSearchViewModel.class);
 
         adapter = new FilmsAdapter();
+        adapter.attachDelegate(new FilmsAdapter.FilmsDelegate() {
+            @Override
+            public void openDescription(int id) {
+                listener.navigateToDescriptionFragmentFromFilms(id);
+            }
+        });
         changeRecyclerViewForm(filmsSearchViewModel.getRecyclerViewForm());
 
 
@@ -113,5 +133,10 @@ public class FilmsFragment extends Fragment {
         adapter.changeRecyclerViewForm(recyclerViewForm);
         binding.filmRecyclerView.setAdapter(adapter);
         setRecyclerViewLayoutManagerAndIcon(recyclerViewForm);
+    }
+
+
+    public interface OnNavigateToDescriptionFragmentListener {
+        void navigateToDescriptionFragmentFromFilms(int id);
     }
 }

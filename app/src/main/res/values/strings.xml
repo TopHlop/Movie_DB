@@ -25,4 +25,6 @@
     <string name="favorite_films_title">Избранное</string>
     <string name="not_found_favorite_films_message">Вы не добавили ни одного фильма</string>
     <string name="found_favorite_films_message">Найти любимые фильмы</string>
+    <string name="rating_film_message">Рейтинг фильма</string>
+    <string name="add_favorite_menu_item_title">Добавить в избранное</string>
 </resources>
