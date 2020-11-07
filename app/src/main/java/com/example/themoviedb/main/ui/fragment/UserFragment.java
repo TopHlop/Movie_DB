@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.FragmentUserBinding;
 import com.example.themoviedb.di.DI;
+import com.example.themoviedb.main.data.UserWrap;
 import com.example.themoviedb.main.ui.CircularAvatarIconTransformation;
 import com.example.themoviedb.main.viewModel.UserViewModel;
 import com.squareup.picasso.Picasso;
@@ -55,19 +56,9 @@ public class UserFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         DI.getAppComponent().inject(this);
         userViewModel = new ViewModelProvider(this, viewModelFactory).get(UserViewModel.class);
-        userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-            binding.nameText.setText(user.getName());
-            binding.userNameText.setText(user.getUsername());
-            Picasso.get()
-                    .load(String.format(getString(R.string.gravatar_url),
-                            user.getAvatar().getGravatar().getHash(),
-                            binding.avatarIcon.getHeight()))
-                    .error(Objects.requireNonNull(ContextCompat.getDrawable(Objects.requireNonNull(getActivity()),
-                            R.drawable.ic_avatar)))
-                    .transform(CircularAvatarIconTransformation.getInstance())
-                    .into(binding.avatarIcon);
-        });
-        userViewModel.getUserData();
+
+        getUserData();
+
         userViewModel.getIsSuccessDeleteSession().observe(getViewLifecycleOwner(), isSuccessDeleteSession -> {
             if(isSuccessDeleteSession) {
                 listener.navigateToLoginFragment();
@@ -75,12 +66,31 @@ public class UserFragment extends Fragment {
         });
         binding.exitButton.setOnClickListener(view -> {
             userViewModel.deleteSession();
-            setExitButtonClickable(false);
+            binding.exitButton.setClickable(false);
         });
     }
 
-    private void setExitButtonClickable(boolean clickable) {
-        binding.exitButton.setClickable(clickable);
+    private void getUserData() {
+        UserWrap user = userViewModel.getUserData();
+        if(user != null) {
+            bindUserData(user);
+        } else {
+            userViewModel.loadUserData();
+            userViewModel.getUser().observe(getViewLifecycleOwner(), this::bindUserData);
+        }
+    }
+
+    private void bindUserData(UserWrap user) {
+        binding.nameText.setText(user.getName());
+        binding.userNameText.setText(user.getUsername());
+        Picasso.get()
+                .load(String.format(getString(R.string.gravatar_url),
+                        user.getAvatar().getGravatar().getHash(),
+                        binding.avatarIcon.getHeight()))
+                .error(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(),
+                        R.drawable.ic_avatar)))
+                .transform(CircularAvatarIconTransformation.getInstance())
+                .into(binding.avatarIcon);
     }
 
     public interface OnNavigateToLoginFragmentListener {

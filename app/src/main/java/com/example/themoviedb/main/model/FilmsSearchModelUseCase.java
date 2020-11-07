@@ -10,6 +10,4 @@ public interface FilmsSearchModelUseCase {
     void searchFilms(String query, boolean includeAdult);
     void clearDisposable();
     LiveData<List<FilmWrap>> getResultSearch();
-    LiveData<String> getQueryString();
-    void clearData();
 }

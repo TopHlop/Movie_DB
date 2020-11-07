@@ -17,9 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.FragmentFilmsBinding;
 import com.example.themoviedb.di.DI;
+import com.example.themoviedb.main.data.FilmWrap;
 import com.example.themoviedb.main.ui.FilmsAdapter;
 import com.example.themoviedb.main.ui.RecyclerViewForm;
 import com.example.themoviedb.main.viewModel.FilmsSearchViewModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -52,35 +55,27 @@ public class FilmsFragment extends Fragment {
     }
 
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         DI.getAppComponent().inject(this);
         filmsSearchViewModel = new ViewModelProvider(this, viewModelFactory).get(FilmsSearchViewModel.class);
 
-        adapter = new FilmsAdapter();
-        adapter.attachDelegate(new FilmsAdapter.FilmsDelegate() {
-            @Override
-            public void openDescription(int id) {
-                listener.navigateToDescriptionFragmentFromFilms(id);
-            }
-        });
-        changeRecyclerViewForm(filmsSearchViewModel.getRecyclerViewForm());
-
-
+        initRecyclerView();
+        getFilmFromLastRequest();
         filmsSearchViewModel.getResultSearch().observe(getViewLifecycleOwner(), resultSearch -> {
-            if(resultSearch.size() == 0) {
+            if (resultSearch.size() == 0) {
                 notFoundFilms(true);
             } else {
                 adapter.setFilms(resultSearch);
             }
         });
 
-        filmsSearchViewModel.getQueryString().observe(getViewLifecycleOwner(), queryString -> {
-            binding.searchFilm.setQuery(queryString, false);
-        });
+        binding.searchFilm.setQuery(filmsSearchViewModel.getLastQuerySearchString(), false);
+        setListeners();
+    }
 
+    private void setListeners() {
         binding.searchFilm.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -110,9 +105,27 @@ public class FilmsFragment extends Fragment {
         });
     }
 
+    private void getFilmFromLastRequest() {
+        List<FilmWrap> films = filmsSearchViewModel.getFilmFromLastRequest();
+        if(films != null) {
+            adapter.setFilms(films);
+        }
+    }
+
+    private void initRecyclerView() {
+        adapter = new FilmsAdapter();
+        adapter.attachDelegate(new FilmsAdapter.FilmsDelegate() {
+            @Override
+            public void openDescription(int id) {
+                listener.navigateToDescriptionFragmentFromFilms(id);
+            }
+        });
+        changeRecyclerViewForm(filmsSearchViewModel.getRecyclerViewForm());
+    }
+
     private void notFoundFilms(boolean isNotFound) {
         binding.filmRecyclerView.setVisibility(isNotFound ? View.GONE : View.VISIBLE);
-        binding.notFoundLayout.setVisibility(isNotFound? View.VISIBLE : View.GONE);
+        binding.notFoundLayout.setVisibility(isNotFound ? View.VISIBLE : View.GONE);
     }
 
     private void setRecyclerViewLayoutManagerAndIcon(RecyclerViewForm recyclerViewForm) {

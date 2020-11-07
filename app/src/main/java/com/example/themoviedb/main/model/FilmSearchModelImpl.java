@@ -13,37 +13,20 @@ import com.example.themoviedb.main.network.MainService;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-@Singleton
 public class FilmSearchModelImpl extends BaseMainModel implements FilmsSearchModelUseCase {
 
     public static final String FILM_SEARCH_SOURCE = "filmSearch";
 
     MutableLiveData<List<FilmWrap>> resultSearch = new MutableLiveData<>();
-    MutableLiveData<String> queryString = new MutableLiveData<>();
 
     @Inject
     public FilmSearchModelImpl(MainService apiMainService, Context context) {
         super(apiMainService, context);
-    }
-
-    public LiveData<String> getQueryString() {
-        return queryString;
-    }
-
-    @Override
-    public void clearData() {
-        if(!resultSearch.hasObservers()) {
-            resultSearch = new MutableLiveData<>();
-        }
-        if(!queryString.hasObservers()) {
-            queryString = new MutableLiveData<>();
-        }
     }
 
     public LiveData<List<FilmWrap>> getResultSearch() {
@@ -52,7 +35,6 @@ public class FilmSearchModelImpl extends BaseMainModel implements FilmsSearchMod
 
     @Override
     public void searchFilms(String query, boolean includeAdult) {
-        queryString.postValue(query);
         disposable.add(apiMainService.getMovies(apiKey, language, query, includeAdult, 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -9,6 +9,7 @@ import java.util.List;
 public interface FavoritesLoadModelUseCase {
     void loadFavorites(int accountId, String sessionId);
     LiveData<List<FilmWrap>> getFavoritesFilmsResult();
+    void markFilmAsFavorite(int accountId, String sessionId, int mediaId, boolean favorite);
+    LiveData<Boolean> getMarkFilmAsFavoriteSuccessful();
     void clearDisposable();
-    void clearData();
 }

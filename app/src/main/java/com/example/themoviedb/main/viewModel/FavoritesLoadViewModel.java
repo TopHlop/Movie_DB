@@ -5,14 +5,12 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.themoviedb.SharedPreferencesHelper;
 import com.example.themoviedb.main.data.FilmWrap;
+import com.example.themoviedb.main.model.DataStorage;
 import com.example.themoviedb.main.model.FavoritesLoadModelImpl;
 import com.example.themoviedb.main.model.FavoritesLoadModelUseCase;
-import com.example.themoviedb.main.model.UserModelImpl;
-import com.example.themoviedb.main.model.UserModelUseCase;
 import com.example.themoviedb.main.ui.RecyclerViewForm;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -20,22 +18,21 @@ public class FavoritesLoadViewModel extends ViewModel {
 
     private FavoritesLoadModelUseCase favoritesSearchModel;
     private SharedPreferencesHelper sharedPreferencesHelper;
-    private UserModelUseCase userModel;
+    private DataStorage storage;
 
 
     @Inject
     public FavoritesLoadViewModel(FavoritesLoadModelImpl favoritesSearchModel,
-                                  UserModelImpl userModel,
-                                  SharedPreferencesHelper sharedPreferencesHelper) {
+                                  SharedPreferencesHelper sharedPreferencesHelper, DataStorage storage) {
         this.favoritesSearchModel = favoritesSearchModel;
-        this.userModel = userModel;
+        this.storage = storage;
         this.sharedPreferencesHelper = sharedPreferencesHelper;
     }
 
     public void loadFavoriteFilms() {
-        if(favoritesSearchModel.getFavoritesFilmsResult().getValue() == null) {
+        if(storage.getFavoriteFilms() == null) {
             String sessionId = sharedPreferencesHelper.getString(SharedPreferencesHelper.KEY_SESSION_ID, null);
-            int accountId = Objects.requireNonNull(userModel.getUser().getValue()).getId();
+            int accountId = storage.getUserData().getId();
             if(sessionId != null) {
                 favoritesSearchModel.loadFavorites(accountId, sessionId);
             } else {
@@ -44,8 +41,16 @@ public class FavoritesLoadViewModel extends ViewModel {
         }
     }
 
+    public List<FilmWrap> getFavoriteFilms() {
+        return storage.getFavoriteFilms();
+    }
+
     public LiveData<List<FilmWrap>> getFavoriteFilmsResult() {
-        return favoritesSearchModel.getFavoritesFilmsResult();
+        LiveData<List<FilmWrap>> favoritesFilmsResult = favoritesSearchModel.getFavoritesFilmsResult();
+        favoritesFilmsResult.observeForever(favorites -> {
+            storage.setFavoriteFilms(favorites);
+        });
+        return favoritesFilmsResult;
     }
 
     public void setRecyclerViewForm(RecyclerViewForm recyclerViewForm) {

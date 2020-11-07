@@ -16,15 +16,16 @@
     <string name="title_favorites">Избранное</string>
     <string name="title_user">Профиль</string>
     <string name="not_found_films_message">По вашему запросу ничего\n не найдено :(</string>
+    <string name="favorite_films_title">Избранное</string>
+    <string name="not_found_favorite_films_message">Вы не добавили ни одного фильма</string>
+    <string name="found_favorite_films_message">Найти любимые фильмы</string>
+    <string name="rating_film_message">Рейтинг фильма</string>
+    <string name="add_favorite_menu_item_title">Добавить в избранное</string>
+    <string name="not_found_overview">Описание отсутствует</string>
 
     <string name="base_url">https://api.themoviedb.org/3/</string>
     <string name="api_key">f974b8f49d7e213fe108f60a32c0aac7</string>
     <string name="gravatar_url">https://www.gravatar.com/avatar/%1$s?s=%2$d</string>
     <string name="poster_url">http://image.tmdb.org/t/p/w185/%1$s</string>
     <string name="search_language">ru-RU</string>
-    <string name="favorite_films_title">Избранное</string>
-    <string name="not_found_favorite_films_message">Вы не добавили ни одного фильма</string>
-    <string name="found_favorite_films_message">Найти любимые фильмы</string>
-    <string name="rating_film_message">Рейтинг фильма</string>
-    <string name="add_favorite_menu_item_title">Добавить в избранное</string>
 </resources>

@@ -11,5 +11,4 @@ public interface UserModelUseCase {
     void getUserData(String sessionId);
     LiveData<UserWrap> getUser();
     void clearDisposable();
-    void clearData();
 }

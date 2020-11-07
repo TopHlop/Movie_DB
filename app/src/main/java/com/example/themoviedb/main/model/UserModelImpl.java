@@ -18,7 +18,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-@Singleton
 public class UserModelImpl extends BaseMainModel implements UserModelUseCase {
 
     @Inject
@@ -82,11 +81,4 @@ public class UserModelImpl extends BaseMainModel implements UserModelUseCase {
         }
     }
 
-    @Override
-    public void clearData() {
-        deleteSessionResponse.postValue(null);
-        if(!user.hasObservers()) {
-            user = new MutableLiveData<>();
-        }
-    }
 }

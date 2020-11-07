@@ -2,6 +2,7 @@ package com.example.themoviedb.main.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -75,11 +76,15 @@ public class FilmDescriptionFragment extends Fragment {
         binding.topAppBar.setOnMenuItemClickListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.favorite:
-
+                    boolean isFavorite = descriptionFilmViewModel.getIsFavorite().getValue();
+                    descriptionFilmViewModel.setFilmFavorite(!isFavorite, filmId);
                     return true;
-                default: return false;
+                default:
+                    return false;
             }
         });
+
+        descriptionFilmViewModel.getIsFavorite().observe(getViewLifecycleOwner(), this::setFavoriteMenuIcon);
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -96,13 +101,23 @@ public class FilmDescriptionFragment extends Fragment {
         binding.originalTitleText.setText(film.getOriginalTitle() + film.getYearReleaseDate());
         binding.voteAverageText.setText(String.valueOf(film.getVoteAverage()));
         binding.voteCountText.setText(String.valueOf(film.getVoteCount()));
-        binding.filmOverviewText.setText(film.getOverview());
+        if (film.getOverview().isEmpty()) {
+            binding.filmOverviewText.setTextAppearance(R.style.GrayTextStyle);
+            binding.filmOverviewText.setText(R.string.not_found_overview);
+        } else {
+            binding.filmOverviewText.setText(film.getOverview());
+        }
         Picasso.get()
                 .load(String.format(requireContext().getString(R.string.poster_url),
                         film.getPosterPath()))
                 .placeholder(Objects.requireNonNull(requireContext().getDrawable(R.drawable.film_poster_placeholder)))
                 .into(binding.poster);
-        //binding.topAppBar
+        setFavoriteMenuIcon(descriptionFilmViewModel.getIsFavorite().getValue());
+    }
+
+    private void setFavoriteMenuIcon(boolean isFavorite) {
+        binding.topAppBar.getMenu().findItem(R.id.favorite).setIcon(isFavorite ? R.drawable.ic_favorite
+                : R.drawable.ic_no_favorite);
     }
 
     public interface OnNavigateBackListener {

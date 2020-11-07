@@ -16,9 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.themoviedb.R;
 import com.example.themoviedb.databinding.FragmentFavoritesBinding;
 import com.example.themoviedb.di.DI;
+import com.example.themoviedb.main.data.FilmWrap;
 import com.example.themoviedb.main.ui.FilmsAdapter;
 import com.example.themoviedb.main.ui.RecyclerViewForm;
 import com.example.themoviedb.main.viewModel.FavoritesLoadViewModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -57,26 +60,13 @@ public class FavoritesFragment extends Fragment {
 
         DI.getAppComponent().inject(this);
         favoritesLoadViewModel = new ViewModelProvider(this, viewModelFactory).get(FavoritesLoadViewModel.class);
-        loadFavoriteFilms();
+        initRecyclerView();
+        getFavoriteFilms();
+        setListeners();
 
-        adapter = new FilmsAdapter();
-        adapter.attachDelegate(new FilmsAdapter.FilmsDelegate() {
-            @Override
-            public void openDescription(int id) {
-                listener.navigateToDescriptionFragmentFromFavorites(id);
-            }
-        });
-        changeRecyclerViewForm(favoritesLoadViewModel.getRecyclerViewForm());
+    }
 
-        favoritesLoadViewModel.getFavoriteFilmsResult().observe(getViewLifecycleOwner(), favoriteFilmsResult -> {
-            if (favoriteFilmsResult.size() == 0) {
-                notFoundFavorites(true);
-            } else {
-                adapter.setFilms(favoriteFilmsResult);
-                notFoundFavorites(false);
-            }
-        });
-
+    private void setListeners () {
         binding.recyclerViewSetting.setOnClickListener(view -> {
             switch (adapter.getRecyclerViewForm()) {
                 case CARD_VIEW:
@@ -93,6 +83,17 @@ public class FavoritesFragment extends Fragment {
         binding.foundFilmsLink.setOnClickListener(view -> {
             listener.navigateToFilmsFragment();
         });
+    }
+
+    private void initRecyclerView() {
+        adapter = new FilmsAdapter();
+        adapter.attachDelegate(new FilmsAdapter.FilmsDelegate() {
+            @Override
+            public void openDescription(int id) {
+                listener.navigateToDescriptionFragmentFromFavorites(id);
+            }
+        });
+        changeRecyclerViewForm(favoritesLoadViewModel.getRecyclerViewForm());
     }
 
     private void setRecyclerViewLayoutManagerAndIcon(RecyclerViewForm recyclerViewForm) {
@@ -121,8 +122,22 @@ public class FavoritesFragment extends Fragment {
         setRecyclerViewLayoutManagerAndIcon(recyclerViewForm);
     }
 
-    private void loadFavoriteFilms() {
-        favoritesLoadViewModel.loadFavoriteFilms();
+    private void getFavoriteFilms() {
+        List<FilmWrap> favorites = favoritesLoadViewModel.getFavoriteFilms();
+        if(favorites != null) {
+            adapter.setFilms(favorites);
+            notFoundFavorites(false);
+        } else {
+            favoritesLoadViewModel.loadFavoriteFilms();
+            favoritesLoadViewModel.getFavoriteFilmsResult().observe(getViewLifecycleOwner(), favoriteFilmsResult -> {
+                if (favoriteFilmsResult.size() == 0) {
+                    notFoundFavorites(true);
+                } else {
+                    adapter.setFilms(favoriteFilmsResult);
+                    notFoundFavorites(false);
+                }
+            });
+        }
     }
 
     public interface OnNavigateToFragmentListener {
