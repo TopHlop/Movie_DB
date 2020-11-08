@@ -10,6 +10,7 @@ import com.example.themoviedb.main.model.FavoritesLoadModelImpl;
 import com.example.themoviedb.main.model.FavoritesLoadModelUseCase;
 import com.example.themoviedb.main.ui.RecyclerViewForm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,6 +40,17 @@ public class FavoritesLoadViewModel extends ViewModel {
                 //ошибка хранения sessionId
             }
         }
+    }
+
+    public List<FilmWrap> searchFilmsAmongFavorites(String query) {
+        List<FilmWrap> favorites = storage.getFavoriteFilms();
+        List<FilmWrap> searchFilms = new ArrayList<>();
+        for(FilmWrap film : favorites) {
+            if(film.getTitle().toLowerCase().contains(query) || film.getOriginalTitle().toLowerCase().contains(query)) {
+                searchFilms.add(film);
+            }
+        }
+        return searchFilms;
     }
 
     public List<FilmWrap> getFavoriteFilms() {

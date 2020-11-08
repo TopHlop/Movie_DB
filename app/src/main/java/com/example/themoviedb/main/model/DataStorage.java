@@ -1,6 +1,7 @@
 package com.example.themoviedb.main.model;
 
 import com.example.themoviedb.main.data.FilmWrap;
+import com.example.themoviedb.main.data.GenresListWrap;
 import com.example.themoviedb.main.data.UserWrap;
 
 import java.util.List;
@@ -15,10 +16,19 @@ public class DataStorage {
     private List<FilmWrap> favoriteFilms;
     private String querySearch;
     private UserWrap userData;
+    private List<GenresListWrap.Genre> genres;
 
     @Inject
     public DataStorage() {
 
+    }
+
+    public List<GenresListWrap.Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<GenresListWrap.Genre> genres) {
+        this.genres = genres;
     }
 
     public UserWrap getUserData() {
@@ -66,5 +76,6 @@ public class DataStorage {
         favoriteFilms = null;
         querySearch = null;
         userData = null;
+        genres = null;
     }
 }

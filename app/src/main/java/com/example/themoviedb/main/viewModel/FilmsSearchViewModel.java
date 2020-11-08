@@ -15,7 +15,6 @@ import com.example.themoviedb.main.model.UserModelUseCase;
 import com.example.themoviedb.main.ui.RecyclerViewForm;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -38,6 +37,7 @@ public class FilmsSearchViewModel extends ViewModel {
         this.storage = storage;
         this.favoritesLoadModel = favoritesLoadModel;
         loadUserData();
+        loadGenreList();
     }
 
     //get accountId for add, delete, load favorites
@@ -52,6 +52,15 @@ public class FilmsSearchViewModel extends ViewModel {
             } else {
                 //ошибка хранения sessionId
             }
+        }
+    }
+
+    private void loadGenreList() {
+        if(storage.getGenres() == null) {
+            filmsSearchModel.loadGenreList();
+            filmsSearchModel.getGenreList().observeForever(genres -> {
+                storage.setGenres(genres);
+            });
         }
     }
 
@@ -81,7 +90,7 @@ public class FilmsSearchViewModel extends ViewModel {
     public void searchFilms(String query) {
         loadFavorites();
         storage.setQuerySearch(query);
-        filmsSearchModel.searchFilms(query, Objects.requireNonNull(userModel.getUser().getValue()).isIncludeAdult());
+        filmsSearchModel.searchFilms(query, storage.getUserData().isIncludeAdult());
     }
 
     public LiveData<List<FilmWrap>> getResultSearch() {

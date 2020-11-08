@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.themoviedb.main.data.FilmWrap;
+import com.example.themoviedb.main.data.GenresListWrap;
 import com.example.themoviedb.main.data.PagingEnvelope;
 import com.example.themoviedb.main.network.MainService;
 
@@ -23,6 +24,7 @@ public class FilmSearchModelImpl extends BaseMainModel implements FilmsSearchMod
     public static final String FILM_SEARCH_SOURCE = "filmSearch";
 
     MutableLiveData<List<FilmWrap>> resultSearch = new MutableLiveData<>();
+    MutableLiveData<List<GenresListWrap.Genre>> genreList = new MutableLiveData<>();
 
     @Inject
     public FilmSearchModelImpl(MainService apiMainService, Context context) {
@@ -31,6 +33,10 @@ public class FilmSearchModelImpl extends BaseMainModel implements FilmsSearchMod
 
     public LiveData<List<FilmWrap>> getResultSearch() {
         return resultSearch;
+    }
+
+    public LiveData<List<GenresListWrap.Genre>> getGenreList() {
+        return genreList;
     }
 
     @Override
@@ -47,6 +53,23 @@ public class FilmSearchModelImpl extends BaseMainModel implements FilmsSearchMod
                     @Override
                     public void onError(Throwable e) {
                         Log.e(this.getClass().getName(), "error search film: " + e.getMessage());
+                    }
+                }));
+    }
+
+    public void loadGenreList() {
+        disposable.add(apiMainService.getMovieGenreList(apiKey, language)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<GenresListWrap>() {
+                    @Override
+                    public void onSuccess(GenresListWrap response) {
+                        genreList.postValue(response.getGenres());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(this.getClass().getName(), "error get genres list: " + e.getMessage());
                     }
                 }));
     }

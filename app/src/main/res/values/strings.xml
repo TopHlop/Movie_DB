@@ -22,10 +22,13 @@
     <string name="rating_film_message">Рейтинг фильма</string>
     <string name="add_favorite_menu_item_title">Добавить в избранное</string>
     <string name="not_found_overview">Описание отсутствует</string>
+    <string name="menu_item_search_title">Поиск</string>
+    <string name="menu_item_recycler_view_form_title">Вид отображения</string>
+    <string name="not_found_films_among_favorites">Ничего не найдено</string>
 
     <string name="base_url">https://api.themoviedb.org/3/</string>
     <string name="api_key">f974b8f49d7e213fe108f60a32c0aac7</string>
     <string name="gravatar_url">https://www.gravatar.com/avatar/%1$s?s=%2$d</string>
-    <string name="poster_url">http://image.tmdb.org/t/p/w185/%1$s</string>
+    <string name="poster_url">http://image.tmdb.org/t/p/w342/%1$s</string>
     <string name="search_language">ru-RU</string>
 </resources>

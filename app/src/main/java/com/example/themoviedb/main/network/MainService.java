@@ -2,6 +2,7 @@ package com.example.themoviedb.main.network;
 
 import com.example.themoviedb.main.data.DeleteSessionResponseWrap;
 import com.example.themoviedb.main.data.FilmWrap;
+import com.example.themoviedb.main.data.GenresListWrap;
 import com.example.themoviedb.main.data.MarkFilmAsFavoriteBodyRequestWrap;
 import com.example.themoviedb.main.data.MarkFilmAsFavoriteResponseWrap;
 import com.example.themoviedb.main.data.PagingEnvelope;
@@ -34,7 +35,6 @@ public interface MainService {
 
     @POST("account/{account_id}/favorite")
     Single<MarkFilmAsFavoriteResponseWrap> markFilmAsFavorite(@Path("account_id") int accountId,
-                                                              //@Header("Content-Type") String contentType,
                                                               @Query("api_key") String apiKey,
                                                               @Query("session_id") String sessionId,
                                                               @Body MarkFilmAsFavoriteBodyRequestWrap body);
@@ -47,5 +47,9 @@ public interface MainService {
     @GET("account")
     Single<UserWrap> getAccountDetails(@Query("api_key") String apiKey,
                                        @Query("session_id") String sessionID);
+
+    @GET("genre/movie/list")
+    Single<GenresListWrap> getMovieGenreList(@Query("api_key") String api_key,
+                                             @Query("language") String language);
 
 }
