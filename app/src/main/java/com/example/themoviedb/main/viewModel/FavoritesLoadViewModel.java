@@ -1,6 +1,7 @@
 package com.example.themoviedb.main.viewModel;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.themoviedb.SharedPreferencesHelper;
@@ -21,6 +22,7 @@ public class FavoritesLoadViewModel extends ViewModel {
     private SharedPreferencesHelper sharedPreferencesHelper;
     private DataStorage storage;
 
+    private MutableLiveData<List<FilmWrap>> favoritesResult = new MutableLiveData<>();
 
     @Inject
     public FavoritesLoadViewModel(FavoritesLoadModelImpl favoritesSearchModel,
@@ -36,6 +38,13 @@ public class FavoritesLoadViewModel extends ViewModel {
             int accountId = storage.getUserData().getId();
             if(sessionId != null) {
                 favoritesSearchModel.loadFavorites(accountId, sessionId);
+                favoritesSearchModel.getFavoritesFilmsResult().observeForever(favorites -> {
+                    for(FilmWrap film : favorites) {
+                        film.setGenres(storage.getGenres());
+                    }
+                    storage.setFavoriteFilms(favorites);
+                    favoritesResult.postValue(favorites);
+                });
             } else {
                 //ошибка хранения sessionId
             }
@@ -58,11 +67,7 @@ public class FavoritesLoadViewModel extends ViewModel {
     }
 
     public LiveData<List<FilmWrap>> getFavoriteFilmsResult() {
-        LiveData<List<FilmWrap>> favoritesFilmsResult = favoritesSearchModel.getFavoritesFilmsResult();
-        favoritesFilmsResult.observeForever(favorites -> {
-            storage.setFavoriteFilms(favorites);
-        });
-        return favoritesFilmsResult;
+        return favoritesResult;
     }
 
     public void setRecyclerViewForm(RecyclerViewForm recyclerViewForm) {

@@ -100,6 +100,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             binding.originalTitleText.setText(film.getOriginalTitle() + film.getYearReleaseDate());
             binding.voteAverageText.setText(String.valueOf(film.getVoteAverage()));
             binding.voteCountText.setText(String.valueOf(film.getVoteCount()));
+            binding.genreText.setText(film.getGenres());
             Context context = binding.poster.getContext();
             Picasso.get()
                     .load(String.format(context.getString(R.string.poster_url),
@@ -128,6 +129,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             binding.originalTitleText.setText(film.getOriginalTitle() + film.getYearReleaseDate());
             binding.voteAverageText.setText(String.valueOf(film.getVoteAverage()));
             binding.voteCountText.setText(String.valueOf(film.getVoteCount()));
+            binding.genreText.setText(film.getGenres());
             Context context = binding.poster.getContext();
             Picasso.get()
                     .load(String.format(context.getString(R.string.poster_url),

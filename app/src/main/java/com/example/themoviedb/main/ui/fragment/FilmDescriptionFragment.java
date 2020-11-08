@@ -100,6 +100,7 @@ public class FilmDescriptionFragment extends Fragment {
         binding.titleText.setText(film.getTitle());
         binding.originalTitleText.setText(film.getOriginalTitle() + film.getYearReleaseDate());
         binding.voteAverageText.setText(String.valueOf(film.getVoteAverage()));
+        binding.genreText.setText(film.getGenres());
         binding.voteCountText.setText(String.valueOf(film.getVoteCount()));
         if (film.getOverview().isEmpty()) {
             binding.filmOverviewText.setTextAppearance(R.style.GrayTextStyle);

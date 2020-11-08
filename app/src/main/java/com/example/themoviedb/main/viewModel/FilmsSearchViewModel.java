@@ -1,6 +1,7 @@
 package com.example.themoviedb.main.viewModel;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.themoviedb.SharedPreferencesHelper;
@@ -24,8 +25,9 @@ public class FilmsSearchViewModel extends ViewModel {
     private FilmsSearchModelUseCase filmsSearchModel;
     private UserModelUseCase userModel;
     private FavoritesLoadModelUseCase favoritesLoadModel;
-
     private DataStorage storage;
+
+    private MutableLiveData<List<FilmWrap>> filmSearchResult = new MutableLiveData<>();
 
     @Inject
     public FilmsSearchViewModel(FilmSearchModelImpl filmSearchModel, UserModelImpl userModel,
@@ -71,6 +73,9 @@ public class FilmsSearchViewModel extends ViewModel {
             if (sessionId != null) {
                 favoritesLoadModel.loadFavorites(storage.getUserData().getId(), sessionId);
                 favoritesLoadModel.getFavoritesFilmsResult().observeForever(favorites -> {
+                    for(FilmWrap film : favorites) {
+                        film.setGenres(storage.getGenres());
+                    }
                     storage.setFavoriteFilms(favorites);
                 });
             } else {
@@ -91,14 +96,17 @@ public class FilmsSearchViewModel extends ViewModel {
         loadFavorites();
         storage.setQuerySearch(query);
         filmsSearchModel.searchFilms(query, storage.getUserData().isIncludeAdult());
+        filmsSearchModel.getResultSearch().observeForever(films -> {
+            for(FilmWrap film : films) {
+                film.setGenres(storage.getGenres());
+            }
+            storage.setFilmsSearch(films);
+            filmSearchResult.setValue(films);
+        });
     }
 
     public LiveData<List<FilmWrap>> getResultSearch() {
-        LiveData<List<FilmWrap>> resultFilmsSearch = filmsSearchModel.getResultSearch();
-        resultFilmsSearch.observeForever(films -> {
-            storage.setFilmsSearch(films);
-        });
-        return resultFilmsSearch;
+        return filmSearchResult;
     }
 
     public void setRecyclerViewForm(RecyclerViewForm recyclerViewForm) {

@@ -34,6 +34,24 @@ public class FilmWrap {
     @Expose
     private List<Integer> genreIds;
 
+    private String genres;
+
+    public String getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<GenresListWrap.Genre> genreList) {
+        String genresString = "";
+        for(int genreId : genreIds) {
+            for(GenresListWrap.Genre genre : genreList) {
+                if(genreId == genre.getId()) {
+                    genresString = genresString + " " + genre.getName();
+                }
+            }
+        }
+        this.genres =  genresString.trim().replace(" ", ", ");
+    }
+
     public String getYearReleaseDate() {
         if(releaseDate == null) {
             return "";
