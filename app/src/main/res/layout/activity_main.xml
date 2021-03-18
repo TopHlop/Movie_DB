@@ -6,25 +6,24 @@
     android:layout_height="match_parent"
     android:background="@color/background_black_color"
     android:orientation="vertical"
-    tools:context=".main.ui.MainActivity">
+    tools:context=".MainActivity">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        app:defaultNavHost="false"
+        app:navGraph="@navigation/main_graph"/>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@color/tablayout_search_color"
-        app:tabTextColor="@color/text_light_color"
-        app:tabSelectedTextColor="@color/button_orange_color"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabGravity="fill"
-        app:tabIndicatorHeight="0dp"
-        />
-
-
+        android:background="@color/background_bottom_navigation"
+        app:itemIconTint="@color/bottom_navigator_selector"
+        app:itemTextColor="@color/bottom_navigator_selector"
+        app:menu="@menu/bottom_navigation_menu"
+        android:visibility="gone"/>
 </LinearLayout>

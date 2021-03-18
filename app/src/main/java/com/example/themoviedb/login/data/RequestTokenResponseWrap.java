@@ -4,7 +4,7 @@ package com.example.themoviedb.login.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RequestTokenAnswerWrap {
+public class RequestTokenResponseWrap {
 
     @SerializedName("success")
     @Expose

@@ -1,13 +1,24 @@
 package com.example.themoviedb.main.data;
 
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class PagingEnvelope<T> {
-    private final int totalPages;
-    private final int totalResults;
-    private final int page;
-    private final List<T> results;
+    @SerializedName("total_page")
+    @Expose
+    private int totalPages;
+    @SerializedName("total_results")
+    @Expose
+    private int totalResults;
+    @SerializedName("page")
+    @Expose
+    private int page;
+    @SerializedName("results")
+    @Expose
+    private List<T> results;
 
     public int getTotalPages() {
         return totalPages;
@@ -25,10 +36,19 @@ public class PagingEnvelope<T> {
         return results;
     }
 
-    public PagingEnvelope(final int totalPages, final int totalResults, final int page, final List<T> results) {
+    public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
+    }
+
+    public void setTotalResults(int totalResults) {
         this.totalResults = totalResults;
+    }
+
+    public void setPage(int page) {
         this.page = page;
+    }
+
+    public void setResults(List<T> results) {
         this.results = results;
     }
 }
